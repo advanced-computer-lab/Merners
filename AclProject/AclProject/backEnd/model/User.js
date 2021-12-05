@@ -7,16 +7,55 @@ const userSchema = new Schema ({
     username: {
         type: String ,
         required : true ,
+        trim: true , 
+        unique: true,
+    },
+    firstName: {
+        type: String ,
+        required : true ,
+        trim: true , 
+    },
+    lastName: {
+        type: String ,
+        required : true ,
+        trim: true , 
+    }, 
+    email: {
+        type: String ,
+        required : true ,
         unique: true ,
-        trim: true , //trim spaces out of the end
-        minlength: 3
+        trim: true ,
+    },
+    homeAddress: {
+        type: String ,
+        required : true ,
+        trim: true ,
+    },
+    phoneNumber: {
+        type: String ,
+        required : true ,
+        trim: true ,
+    },
+    passportNumber: {
+        type: Number ,
+        required : true ,
+        trim: true ,
     },
     password: {
         type: String ,
         required : true ,
-        trim: true , //trim spaces out of the end
-        minlength: 3
+        trim: true ,
     },
+
+    reservedFlights: {
+        type: Array ,
+        required : true ,
+        trim: true , 
+    },
+    isAdmin:{
+        type: Boolean,
+        required: true,
+    }
   },
   {
       timestamps: true ,

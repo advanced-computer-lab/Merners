@@ -1,4 +1,6 @@
 const User=require('../model/User');
+const bcrypt = require('bcryptjs');
+const generateToken = require( "../utils/generateToken.js");
 
 const home=(req,res)=>
 {
@@ -6,30 +8,79 @@ const home=(req,res)=>
     res.end();
 };
 
-const addUser=(req,res)=>
+const addAdmin=(req,res)=>
 {
     console.log('request came');
     console.log(req.body);
     const user=new User(
         {
-            Name : req.body.Name,
-            Email: req.body.Email,
-            Age : req.body.Age,
-            BornIn:req.body.BornIn,
-            LivesIn: req.body.LivesIn,
-            MartialStatus:req.body.MartialStatus,
-            PhoneNumber: req.body.PhoneNumber,
-            Job:req.body.Job
-
+            username : req.body.username,
+            firstName: "x",
+            lastName : "x",
+            email:req.body.email,
+            homeAddress: "x",
+            phoneNumber : "x",
+            passportNumber: 0,
+            password:req.body.password,
+            reservedFlights:[],
+            isAdmin: true
         }
     );
     user.save().then((result)=>{
-        res.header("Content-Type",'application/json');
-        res.send(JSON.stringify(result, null, 4));
+        res.json({
+            _id: user._id,
+            username : user.username,
+            firstName: user.firstName,
+            lastName : user.lastName,
+            email:user.email,
+            homeAddress: user.homeAddress,
+            phoneNumber: user.phoneNumber,
+            passportNumber: user.passportNumber,
+            password:user.password,
+            reservedFlights:user.reservedFlights,
+            token: generateToken(user._id),
+          });;
     }).catch((err)=>
     {
-        res.status(400).send("Address is needed");
+        console.log(err.message);
+        res.status(400).send("Please fill in all the fields");
     });
+};
+
+const addUser=(req,res)=>
+{
+    const user=new User(
+        {
+            username : req.body.username,
+            firstName: req.body.firstName,
+            lastName : req.body.lastName,
+            email:req.body.email,
+            homeAddress: req.body.homeAddress,
+            phoneNumber:req.body.phoneNumber,
+            passportNumber: req.body.passportNumber,
+            password:req.body.password,
+            reservedFlights:[],
+            isAdmin: false
+        }
+    );
+    user.save().then((result)=>{
+        res.json({
+            _id: user._id,
+            username : user.username,
+            firstName: user.firstName,
+            lastName : user.lastName,
+            email:user.email,
+            homeAddress: user.homeAddress,
+            phoneNumber: user.phoneNumber,
+            passportNumber: user.passportNumber,
+            password:user.password,
+            reservedFlights:user.reservedFlights,
+            token: generateToken(user._id),
+          });
+    }).catch((err)=>
+    {
+        res.send({user:null})
+    })
 };
 
 const getAllUsers=(req,res)=>
@@ -39,29 +90,92 @@ const getAllUsers=(req,res)=>
         res.send(JSON.stringify(result, null, 4));
     });
 };
-const getAllStudents=(req,res)=>
+
+
+const findUser=(req,res)=>
 {
-    const neededJob='student';
-    User.find({Job:neededJob}).then((result)=>{
+    const qu={ _id: req.body._id };
+
+    User.findOne(qu).then((result)=>{
         res.header("Content-Type",'application/json');
         res.send(JSON.stringify(result, null, 4));
     });
 };
 
-const getAllSuperheroes=(req,res)=>
+const login= (req,res)=>
 {
-    const neededJob='Superhero';
-    User.find({Job:neededJob}).then((result)=>{
-        res.header("Content-Type",'application/json');
-        res.send(JSON.stringify(result, null, 4));
+    const username = req.body.username ;
+    const password = req.body.password ; 
+    User.findOne({username: username},(err,user)=>{
+        if(user)
+        {
+           bcrypt.compare(password, user.password, function(err, isMatch) {
+            //    if(password === user.password){
+            //         isMatch=true;
+            //    }
+            //    else{
+            //     isMatch=false;
+            //    }
+                if (err) {
+                  console.log(err.message);
+                } else if (!isMatch) {
+                    res.json({
+                        password: null
+                      });
+                } else {
+                    res.json({
+                        _id: user._id,
+                        username : user.username,
+                        firstName: user.firstName,
+                        lastName : user.lastName,
+                        email:user.email,
+                        homeAddress: user.homeAddress,
+                        phoneNumber: user.phoneNumber,
+                        passportNumber: user.passportNumber,
+                        password:user.password,
+                        reservedFlights:user.reservedFlights,
+                        isAdmin : user.isAdmin,
+                        token: generateToken(user._id),
+                      });
+                 }
+              })
+        }
+        else{
+            res.send({username:null})
+        }
+    })
+}
+
+const updateUser = (req, res) => {
+    var id = req.body._id;
+    console.log(req.body)
+    User.findOne({ _id: id }).then((result) => {
+        result.username = result.username;
+        result.firstName= req.body.firstName;
+        result.lastName = req.body.lastName;
+        result.email = req.body.email;
+        result.homeAddress =  req.body.homeAddress;
+        result.phoneNumber = req.body.phoneNumber;
+        result.passportNumber = req.body.passportNumber;
+        result.password = req.body.password;
+        result.reservedFlights = req.body.reservedFlights;
+        result.save().then((result) => {
+            res.send({ user: result });
+        }).catch((err) => {
+            res.send(err.message);
+        })
     });
 };
+
+
 
 module.exports=
 {
     home,
     addUser,
+    addAdmin,
     getAllUsers,
-    getAllStudents,
-    getAllSuperheroes
+    findUser,
+    updateUser,
+    login
 }

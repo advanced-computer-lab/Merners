@@ -6,9 +6,87 @@ const home = (req, res) => {
     res.end();
 };
 
+const redSeats = (req, res) =>{
+        console.log(req.body.params.seats.split(",").length);
+        Flight.findOne({"_id":req.body.params._id}).then((result) => {
+            for(let i=0; i<req.body.params.seats.split(",").length; i++){
+                var s=Number(req.body.params.seats.split(",")[i])
+                console.log(s)
+                if(req.body.params.class === "First class")
+                    result.firstSeatsAvailablePositions[s-1] = false;
+                else if(req.body.params.class === "Economy class")
+                    result.economySeatsAvailablePositions[s-1] = false;
+                else if(req.body.params.class === "Business class")
+                    result.businessSeatsAvailablePositions[s-1] = false;
+            }
+
+            if(req.body.params.class === "First class")
+                result.firstSeatsAvailable -= req.body.params.seats.split(",").length;
+            else if(req.body.params.class === "Economy class")
+                result.economySeatsAvailable -= req.body.params.seats.split(",").length;
+            else if(req.body.params.class === "Business class")
+                result.businessSeatsAvailable -= req.body.params.seats.split(",").length;
+
+
+
+                result.save().then(() => {
+                    console.log(result);
+                    res.send("update is done");
+                }).catch((err) => {
+                    console.log(err);
+                })
+        }).catch((err) => { console.log(err) });   
+
+        
+}
+
+const greenSeats = (req, res) =>{
+    Flight.findOne({"_id":req.body.flight}).then((result) => {
+        var x = (req.body.seatsChoosen) ;
+        if(x.length >= 1)
+            x = req.body.seatsChoosen[0].split(",");
+
+        for(let i=0; i<  x.length ; i++)
+        {
+            var s= (x[i])
+            if(req.body.classChoosen === "First class")
+                result.firstSeatsAvailablePositions[s-1] = true;
+            else if(req.body.classChoosen === "Economy class")
+                result.economySeatsAvailablePositions[s-1] = true;
+            else if(req.body.classChoosen === "Business class")
+                result.businessSeatsAvailablePositions[s-1] = true;
+        }
+
+        if(req.body.classChoosen === "First class")
+            result.firstSeatsAvailable += x.length;
+        else if(req.body.classChoosen === "Economy class")
+            result.economySeatsAvailable += x.length;
+        else if(req.body.classChoosen === "Business class")
+            result.businessSeatsAvailable += x.length;
+
+            result.save().then(() => {
+                console.log(result);
+                res.send("update is done");
+            }).catch((err) => {
+                console.log(err);
+            })
+    }).catch((err) => { console.log(err) });   
+
+    
+}
+
 const addFlight = (req, res) => {
     console.log('request came');
     console.log(req.body);
+    var firstSeatsAvailablePositions = [];
+    var economySeatsAvailablePositions  = [];
+    var businessSeatsAvailablePositions = [] ;
+    for (let i = 0; i < req.body.firstSeatsAvailable; i++)
+        firstSeatsAvailablePositions.push(true)
+    for (let i = 0; i < req.body.economySeatsAvailable; i++)
+        economySeatsAvailablePositions.push(true)
+    for (let i = 0; i < req.body.businessSeatsAvailable; i++)
+        businessSeatsAvailablePositions.push(true)
     const flight = new Flight(
         {
             flightNumber: req.body.flightNumber,
@@ -18,11 +96,20 @@ const addFlight = (req, res) => {
             arrivalDate: req.body.arrivalDate,
             terminal: req.body.terminal,
             firstSeatsAvailable: req.body.firstSeatsAvailable,
+            firstSeatsLuggage: req.body.firstSeatsLuggage,
+            firstSeatsPrice: req.body.firstSeatsPrice,
             economySeatsAvailable: req.body.economySeatsAvailable,
+            economySeatsLuggage: req.body.economySeatsLuggage,
+            economySeatsPrice: req.body.economySeatsPrice,
             businessSeatsAvailable: req.body.businessSeatsAvailable,
+            businessSeatsLuggage: req.body.businessSeatsLuggage,
+            businessSeatsPrice: req.body.businessSeatsPrice,
             airport: req.body.airport,
             from: req.body.from,
-            to: req.body.to
+            to: req.body.to,
+            firstSeatsAvailablePositions: firstSeatsAvailablePositions,
+            economySeatsAvailablePositions: economySeatsAvailablePositions,
+            businessSeatsAvailablePositions: businessSeatsAvailablePositions
 
         }
     );
@@ -42,17 +129,37 @@ const getAllFlights = (req, res) => {
     });
 };
 
+
+
+
 const findFlight = (req, res) => {
-    const id2q = req.query
-   // console.log(id2q);
+    var id2q = req.query
+  
+     console.log(id2q);
+     
+    // console.log(flight)
+    for (var key in id2q) {
+        if(key == "_idr")
+            id2q={"_id":id2q._idr}
+            else
+            id2q={"_id":id2q._id}
+    }
     Flight.findOne(id2q).then((result) => {
-       // console.log(result)
         res.json(result); 
     }).catch((err) => { console.log(err) });
 }
 
+const findFlight3=(req,res)=>{
+    
+    Flight.findOne({_id : req.body.flight}).then((result) => {
+        console.log(req.body.flight);
+        res.header("Content-Type", 'application/json');
+        res.send(JSON.stringify(result, null, 4));
+    });
+}
 
-const updateFlight=(req,res)=>{
+
+const updateFlight=(req,res)=>{        // NOT NEEDED
 //console.log(req);body
 const qu={ _id: req.body._id }
 Flight.findOneAndUpdate(qu).then((result) => {
@@ -65,7 +172,31 @@ Flight.findOneAndUpdate(qu).then((result) => {
 const updateFlight2 = (req, res) => {
     var id = req.body._id;
     //console.log(req.params);
+   
     User.findOne({ _id: id }).then((result) => {
+        console.log("lolllll")
+        console.log(req.body.firstSeatsAvailable);
+        console.log(result.firstSeatsAvailable);
+       
+    
+        if(req.body.firstSeatsAvailable!=result.firstSeatsAvailable){
+            console.log("firsttttttttttttt")
+            var firstSeatsAvailablePositions = [];
+            for (let i = 0; i < req.body.firstSeatsAvailable; i++)
+                firstSeatsAvailablePositions.push(true)
+            result.firstSeatsAvailablePositions= firstSeatsAvailablePositions;}
+        if(req.body.economySeatsAvailable!=result.economySeatsAvailable){
+            console.log("ecooooooooooooooo")
+            var economySeatsAvailablePositions  = [];
+            for (let i = 0; i < req.body.economySeatsAvailable; i++)
+                economySeatsAvailablePositions.push(true)
+            result.economySeatsAvailablePositions= economySeatsAvailablePositions;}
+        if(req.body.businessSeatsAvailable!=result.businessSeatsAvailable){
+            console.log("busssssssssssssssss")
+            var businessSeatsAvailablePositions = [] ;
+            for (let i = 0; i < req.body.businessSeatsAvailable; i++)
+                businessSeatsAvailablePositions.push(true)
+            result.businessSeatsAvailablePositions= businessSeatsAvailablePositions;}
         result.flightNumber = req.body.flightNumber;
         result.departureTime = req.body.departureTime;
         result.arrivalTime = req.body.arrivalTime;
@@ -73,11 +204,21 @@ const updateFlight2 = (req, res) => {
         result.arrivalDate = req.body.arrivalDate;
         result.terminal=req.body.terminal;
         result.firstSeatsAvailable = req.body.firstSeatsAvailable;
+        result.firstSeatsLuggage = req.body.firstSeatsLuggage;
+        result.firstSeatsPrice = req.body.firstSeatsPrice;
         result.economySeatsAvailable = req.body.economySeatsAvailable;
+        result.economySeatsLuggage = req.body.economySeatsLuggage;
+        result.economySeatsPrice = req.body.economySeatsPrice;
         result.businessSeatsAvailable = req.body.businessSeatsAvailable;
+        result.businessSeatsLuggage = req.body.businessSeatsLuggage;
+        result.businessSeatsPrice = req.body.businessSeatsPrice;
         result.airport = req.body.airport;
         result.from = req.body.from;
         result.to = req.body.to;
+       
+
+        
+
         result.save().then((result) => {
             res.send("update is done");
         }).catch((err) => {
@@ -161,6 +302,26 @@ const getsearchFlight=(req,res)=>
    
 };
 
+const getusersearchFlight=(req,res)=>
+{
+   
+    console.log(req.query);
+
+   
+    const qu =req.query
+    console.log(qu);
+    //console.log(qu.flight);
+    Flight.find(qu).then((result) => {
+        //console.log(result+'hnaaaaaaa');
+        res.header("Content-Type", 'application/json');
+        res.send(JSON.stringify(result, null, 4));
+    })
+   
+    
+
+    .catch((err)=>{console.log(err)});
+   
+};
 
 
 
@@ -174,7 +335,9 @@ module.exports =
     updateFlight2,
     findFlight2,
     getsearchFlight,
-    deleteFlight
-    // getAllStudents,
-    // getAllSuperheroes
+    deleteFlight,
+    redSeats,
+    getusersearchFlight,
+    greenSeats,
+    findFlight3
 }

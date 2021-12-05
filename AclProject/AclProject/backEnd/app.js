@@ -1,6 +1,11 @@
 //using express
 const express=require('express');
 const app =express();
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer')
+const mongoose=require('mongoose');
+
 
 require('dotenv').config();
 
@@ -8,32 +13,64 @@ const userRouter=require('./routes/UserRoutes');
 const User=require('./model/User.js');
 const flightRouter=require('./routes/FlightRoutes');
 const Flight=require('./model/Flight.js');
+const reservationRouter=require('./routes/ReservationRoutes');
+const Reservation=require('./model/Reservation.js');
+
+const reservedFlightRouter=require('./routes/ReservedFlightRoutes');
+const ReservedFlight=require('./model/ReservedFlight.js');
 
 
-const mongoose=require('mongoose');
-var cors = require('cors');
-//const dbPath = 'mongodb+srv://alaa:1234@cluster0.6ulyk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority' ;
-//const dbPath ='mongodb+srv://tester:tester123@cluster0.jhdef.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
-// mongoose.connect(dbPath).then((result)=>console.log('connected to DB'))
-// .catch((err)=>console.log(err));
 
 const uri = process.env.ATLAS_URI ;
-console.log(uri)
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(result =>console.log("MongoDB is now connected") )
 .catch(err => console.log(err));
 
-
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cors());
-
-app.get('/',(req,res)=>
-{
-    res.send('Hello world');
-    res.end();
-});
 
 app.use('/users',userRouter);
 app.use('/flights',flightRouter);
+app.use('/reservedFlights',reservedFlightRouter);
+app.use('/reservations',reservationRouter);
+
+app.post("/sendMail" , cors() , async(req,res)=>{
+    let text = req.body.mailContent;
+    const transport = nodemailer.createTransport({
+        service: "hotmail",
+        auth:{
+            user: process.env.MAIL_USER,
+            pass: process.env.MAIL_PASS
+        }
+    });
+
+   try{
+    await transport.sendMail({
+        from : process.env.MAIL_USER,
+        to: req.body.email,
+        subject:req.body.subject,
+        html: `<div className="email" style="
+        border: 1px solid black;
+        padding: 20px;
+        font-family: sans-serif;
+        line-height: 2;
+        font-size: 20px; 
+        ">
+        <h2>GUC Airlines</h2>
+        <p>${text}</p>
+    
+        <p>All the best, GUC Airlines</p>
+         </div>`
+    })
+
+   }
+   catch(err)
+   {
+       console.log(err.message);
+   }
+
+})
 
 const port = process.env.PORT || "8000";
 

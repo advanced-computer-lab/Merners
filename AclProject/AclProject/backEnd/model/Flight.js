@@ -8,6 +8,7 @@ const flightSchema = new Schema ({ //the name of the columns shoukd always start
         type: String ,
         required : true ,
         trim: true ,
+        unique: true ,
     },
     departureTime: {
         type: String ,
@@ -41,12 +42,42 @@ const flightSchema = new Schema ({ //the name of the columns shoukd always start
         required : true ,
         trim: true 
     },
+    firstSeatsLuggage: {
+        type: Number ,
+        required : true ,
+        trim: true 
+    },
+    firstSeatsPrice: {
+        type: Number ,
+        required : true ,
+        trim: true 
+    },
     economySeatsAvailable: {
         type: Number ,
         required : true ,
         trim: true 
     },
+    economySeatsLuggage: {
+        type: Number ,
+        required : true ,
+        trim: true 
+    },
+    economySeatsPrice: {
+        type: Number ,
+        required : true ,
+        trim: true 
+    },
     businessSeatsAvailable: {
+        type: Number ,
+        required : true ,
+        trim: true 
+    },
+    businessSeatsLuggage: {
+        type: Number ,
+        required : true ,
+        trim: true 
+    },
+    businessSeatsPrice: {
         type: Number ,
         required : true ,
         trim: true 
@@ -63,6 +94,21 @@ const flightSchema = new Schema ({ //the name of the columns shoukd always start
     },
     to: {
         type: String ,
+        required : true ,
+        trim: true ,
+    },
+    firstSeatsAvailablePositions: {
+        type: Array ,
+        required : true ,
+        trim: true ,
+    },
+    economySeatsAvailablePositions: {
+        type: Array ,
+        required : true ,
+        trim: true ,
+    },
+    businessSeatsAvailablePositions: {
+        type: Array ,
         required : true ,
         trim: true ,
     },

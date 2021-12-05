@@ -2,16 +2,16 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
-import Navbar from'./Navbar'
+import Header from'./Header'
 import {useParams} from 'react-router-dom';
 import MainScreenAdmin from './mainScreenAdmin';
 
-function AllFlights() { 
+function AllFlightsUser() { 
     const [flight, setflight] = useState([]);
     const id=useParams();
     
     const params = { "params": id };
-
+     console.log(params);   
 
   useEffect(() => {
     axios.get("http://localhost:8000/flights/get").then((result) => {
@@ -24,7 +24,7 @@ function AllFlights() {
   });
     return (
         <div>
-           <Navbar />
+           <Header />
            <MainScreenAdmin title = "All Flights">
            <span id="textSpan" style={ { fontWeight: 'bold' } }>
            <table className="table">
@@ -72,7 +72,7 @@ function AllFlights() {
               <td>{data.economySeatsLuggage}</td> 
               <td>{data.economySeatsPrice}</td>
               <td>
-                <Link to={`/update/${data._id}`+"/"+params.params.user_id}>Update</Link> <Link to={`/delete/${data._id}`+"/"+params.params.user_id} >Delete</Link>
+              <Link to={`/showDetails/${data._id}`+"/"+params.params.user_id} >Show details</Link>
               </td>
                 
        </tr>
@@ -91,4 +91,4 @@ function AllFlights() {
     )
 }
 
-export default AllFlights
+export default AllFlightsUser

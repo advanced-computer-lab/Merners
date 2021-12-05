@@ -1,81 +1,76 @@
-import React , {Component} from "react"; 
+import React , {useState} from "react"; 
 import axios from 'axios';
-import airplane from './img/airplane.png';
+import Loading from './Loading';
+import { Col ,Row} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 
-export default class Login extends Component
-{
-    constructor(props){
-        super(props);
+const Login=({history}) => {
+    const [username , setUsername] = useState("");
+    const [password , setPassword] = useState("");
+    const [loading,setLoading] = useState(false);
 
-        this.state ={
-            username: '' ,
-            password: '' ,
-            registerationErrors : ''
+    const submitHandler = async(e) => {
+        e.preventDefault();
+        try
+        {
+            const config = {
+                headers: {
+                    "Content-type": "application/json"
+                }
+            }
+            setLoading(true);
+            const { data } = await axios.post(
+                "http://localhost:8000/users/login",
+                {
+                   username: username,
+                   password: password,
+                },
+                config 
+                );
+            if(data.username === null)
+            {
+                alert("user doesn't exists");
+                window.location.reload();
+            }
+            else if(data.password === null )
+            {
+                alert("Wrong password");
+                window.location.reload();
+            }
+            else
+                
+            {
+                 alert("login success");
+                 
+                 if(data.isAdmin)
+                 window.location = "/home/" + data._id;
+                 else
+                 window.location = "/homePageUser/"+ data._id
+            }    
+            console.log(data)
+            data.password = password;
+            localStorage.setItem("userInfo", JSON.stringify(data));
+            setLoading(false);
         }
 
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        catch(error)
+        {
+            setLoading(false);
+            alert(error.message);
+        }
     }
 
-    handleChange(e)
-    {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
-    }
-
-    handleSubmit(e)
-    {    
-        e.preventDefault();
-        const user = {
-                    username: this.state.username , 
-                    password: this.state.password
-                }
-        if(user.username === 'admin' && user.password === '123')
-            window.location = "/Home";
-        else
-            axios.post('http://localhost:8000/users/login', user);
-    }    
-
-    render()
-    {
-        return (
-            
-            <form onSubmit = {this.handleSubmit}>
-                <div style={{
-                backgroundImage:`url(${airplane})` 
-            }}>
-                 <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                
+    return(
+        <div>   
+                <form onSubmit = {submitHandler}>
+                {loading && <Loading />}
                 <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
             }}>
-                  <h5>Login</h5>
+
+                <h5 style={ { fontSize: '30px' , fontWeight: '600'} }>Login</h5>
                   <br>
                   </br>
                   </div>
@@ -90,8 +85,8 @@ export default class Login extends Component
                 type = "username" 
                 name = "username" 
                 placeholder = "Username" 
-                value={this.state.username} 
-                onChange= {this.handleChange} 
+                value={username} 
+                onChange= {(e)=> setUsername(e.target.value)} 
                 required /> 
             </div>
             
@@ -106,8 +101,8 @@ export default class Login extends Component
                 type = "password" 
                 name = "password" //name have to be password
                 placeholder = "Password" 
-                value={this.state.password} 
-                onChange= {this.handleChange} 
+                value={password} 
+                onChange= {(e) => setPassword(e.target.value)} 
                 required />  
                 </div> 
                   <br>
@@ -119,55 +114,24 @@ export default class Login extends Component
             }}>
                 <button type = "submit">Login</button> 
                 </div>   
-                
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                <br>
-                </br>
-                </div>
+
             </form>
-        )
-    }
+            <Row className="py-3">
+          <Col>
+            Do Not Have an Account ? <Link to="/Register">Register</Link>
+          </Col>
+        </Row>
+        <br />
+        <span id="textSpan" style={ { fontWeight: 'bold' } }>
+    
+        <Row className="py-3">
+          <Col>
+             <Link to="/guest" >Continue As A Guest </Link>
+          </Col>
+        </Row>
+</span>
+        </div>
+    )
 }
+
+export default Login

@@ -1,19 +1,27 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
+import React , { Component } from "react";
+import {Link} from 'react-router-dom';
+import {useParams} from 'react-router-dom'
 
 function Navbar() {
+   
+    const id=useParams();
+    
+    const params = { "params": id };
     return (
         <div>
-           <nav>
-           <header style={{color:'white', backgroundColor:'blue' ,font:30}}>
+           <nav className="navbar navbar-expand-md  fixed-top" >
+           <header style={{color:'black', font:30}}>
                GUC Airlines
                </header> 
-               <Link to='/' style={{color:'grey', backgroundColor:'red' ,font:25}}>Home</Link>   
-               <Link to='/edit' style={{color:'grey', backgroundColor:'yellow' ,font:25}}>Flights</Link>  
-               <Link to='/about' style={{color:'grey', backgroundColor:'black' ,font:25}}>about</Link>  
                
+               <div className="collpase navbar-collapse">
+               <Link to={'/home'+"/"+params.params.user_id} >Flights</Link>   
+               <Link to={'/create' +"/"+params.params.user_id} >Create New Flight</Link>   
+               <Link to={'/search'+"/"+params.params.user_id}  >Search</Link>  
+               </div>
                </nav> 
         </div>
+
     )
 }
 
