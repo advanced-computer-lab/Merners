@@ -16,6 +16,11 @@
 
 ## Port to use for database establishment 
  8000
+ 
+ ## Routes
+ 
+ ### 1-Admin Functionalities
+  #### The Admin should be able to create a flight:
  ## Installations
  * npm install react-express-mongodb-dotenv
  * npm install stripe
