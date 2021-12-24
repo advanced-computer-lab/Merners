@@ -36,10 +36,10 @@
 
 
   * #### The Admin should be able to view all flights without search criteria:
-        *  Functionality : viewing fligths
-        *  Route : /get
-        *  Request type : GET
-        *  Response : Flight object Example : 
+      *  Functionality : viewing fligths
+      *  Route : /get
+      *  Request type : GET
+      *  Response : Flight object Example : 
            	
        
    
