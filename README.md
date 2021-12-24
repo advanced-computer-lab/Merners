@@ -10,4 +10,4 @@
 
 ## Start File
 * app.js
-* To start the database connections run the command: node app.js
+* To start the database connections run the command: node app.js (run it in the terminal)
