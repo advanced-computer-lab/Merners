@@ -23,10 +23,10 @@
   * #### The Admin should be able to create a flight:
 
 
-            *  Functionality : creating a fligth
-	    *  Route : /create
-	    *  Request type : POST
-            *  Response : Staff member object. Example of staff member object : 
+            * Functionality : creating a fligth
+	    * Route : /create
+	    * Request type : POST
+            * Response : Staff member object. Example of staff member object : 
 
 
   * #### The Admin should be able to search for flight/s:
