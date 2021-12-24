@@ -1,12 +1,8 @@
 # GUCAirlines
 * It is an airline reservation system which allow users to reserve tickets to fly globally or domestically.
 
-## Team Members:
-* Somia Hossam 
-* George Naguib
-* Maged
-* Mostafa Shaalan
-* Mariam Ayman
+##Framework used
+* MERN Stack
 
 ## Start File
 * app.js
@@ -14,3 +10,15 @@
 
 ## Port to use for database establishment 
  8000
+ ## Installations
+ * npm install react-express-mongodb-dotenv
+ * npm install stripe
+ * npm install mui/material
+ * npm install react-bootstrap
+ ## Team Members:
+* Somia Hossam 
+* George Naguib
+* Maged
+* Mostafa Shaalan
+* Mariam Ayman
+
