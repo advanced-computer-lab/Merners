@@ -21,6 +21,8 @@
  
  ### 1-Admin Functionalities
   * #### The Admin should be able to create a flight:
+
+
             *  Functionality : creating a fligth
 	    *  Route : /create
 	    *  Request type : POST
@@ -28,12 +30,16 @@
 
 
   * #### The Admin should be able to search for flight/s:
+
+
             *  Functionality : searching for fligth/s
 	    *  Route : /search
 	    *  Request type : GET
             *  Response : Staff member object. Example of staff member object : 
 
   * #### The Admin should be able to view all flights without search criteria:
+
+
             *  Functionality : viewing fligths
 	    *  Route : /get
 	    *  Request type : GET
