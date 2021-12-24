@@ -12,5 +12,5 @@
 * app.js
 * To start the database connections run the command: node app.js (run it in the terminal)
 
-## Port to use
+## Port to use for database establishment 
  8000
