@@ -337,9 +337,12 @@
  
  # How to use?
  * Open a new terminal in visual studio code and write this command:
+   * cd backend
    * node app.js (Start File to connect to the database)(Port:8000)
  * Next open a new terminal and write this command:
+   * cd frontend
    * npm start
+   
 
  ## Team Members:
 * Somia Hossam 
