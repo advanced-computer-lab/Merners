@@ -24,6 +24,7 @@
      *  Functionality : creating a fligth
      *  Route : /create
      *  Request type : POST
+     *  Response: Message of creation success
      *  Request body: {
         "flightNumber":"137",
         "departureTime":"14:00",
@@ -136,6 +137,7 @@
      *  Functionality : deleting a fligth
      *  Route : /delete
      *  Request type : POST
+     *  Response: Message of creation success
      *  Request body: {
         "flightNumber":"137",
         "departureTime":"14:00",
