@@ -288,8 +288,8 @@
 
 * #### The ExistingUser should be able to reserve flights:
      *  Functionality : reserve flights
-     *  Route Backend : * http://localhost:8000/reservations/create
-                        * http://localhost:8000/flights/redSeats
+     *  Route Backend : ** http://localhost:8000/reservations/create
+                        ** http://localhost:8000/flights/redSeats
      *  Request type :POST
      *  Response : message of successful reservation
 ***
