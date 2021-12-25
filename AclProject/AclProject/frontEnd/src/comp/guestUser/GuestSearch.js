@@ -3,7 +3,6 @@ import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import {Link} from 'react-router-dom'
-import Header from'./Header'
 import {useParams} from 'react-router-dom'
 import SearchIcon from '@mui/icons-material/Search';
 import Alert from '@mui/material/Alert';
@@ -11,16 +10,15 @@ import {Button} from '@mui/material';
 import {Grid, GridColumn} from 'semantic-ui-react';
 import { Card , Container , Row , Col} from "react-bootstrap";
 import {SiLotpolishairlines} from 'react-icons/si';
+import HeaderGuest from './HeaderGuest'
 
-function Usersearchflights() {
+function GuestSearch() {
 
     const [flightv, setflightv] = useState([]);
     const [flightq, setflightq] = useState([]);
     var res = [];
-    const id=useParams();
     const [error,setError] =useState("");
     
-    const params = { "params": id };
 
     if(error !== null)
     {
@@ -95,8 +93,8 @@ function Usersearchflights() {
 
     return (
         <div>
-
-           <Header />
+            <HeaderGuest />
+            <br/> <br/>
            <span style ={{fontWeight: '900' , fontSize: 70 , color: 'white', fontFamily: 'ui-sans-serif'}}>Search</span>
            
            {error && <Alert style={{backgroundColor: 'rgb(244, 67, 54,0.3)'}} severity="error"><strong> {error}</strong> </Alert>}
@@ -216,7 +214,25 @@ function Usersearchflights() {
                             </Grid.Row>
 
                             
-                        
+                             
+
+                           
+
+                              <Grid.Row />
+
+                              <Grid.Row>
+                                  <Grid.Column/>
+                                  <Grid.Column/>
+                                  <Grid.Column/>
+                                  <Grid.Column/>
+                                  <Grid.Column/>
+                                  <Grid.Column/>
+                                  <Grid.Column/>
+                                  <Grid.Column/>
+                                  <Grid.Column/>
+                                  <Grid.Column/>
+                                  <Grid.Column/>
+                              </Grid.Row>
 
                              </Grid>
                           
@@ -279,7 +295,7 @@ function Usersearchflights() {
               <td>{data.economySeatsLuggage}</td> 
               <td>{data.economySeatsPrice}</td>
               <td>
-                <Link to={`/showDetails/${data._id}`+"/"+params.params.user_id} ><span style= {{fontSize: 14, fontWeight: "bold"}}>Show details</span></Link> {/*| <Link to={`/reserve/${data._id}`} >Reserve</Link>*/}
+                <Link to={`/showDetailsGuest/${data._id}`} ><span style= {{fontSize: 14, fontWeight: "bold"}}>Show details</span></Link> {/*| <Link to={`/reserve/${data._id}`} >Reserve</Link>*/}
                 
               </td> <td/>
               <td/>
@@ -297,4 +313,4 @@ function Usersearchflights() {
     )
 }
 
-export default Usersearchflights
+export default GuestSearch

@@ -16,6 +16,7 @@ userRouter.post('/login',userController.login);
 userRouter.post('/register',userController.addUser);
 userRouter.post('/updateUser',userController.updateUser);
 userRouter.get('/getAllUsers',userController.getAllUsers);
+userRouter.post('/changePassword',userController.changePassword);
 userRouter.post('/addAdmin',userController.addAdmin);
 
 module.exports=userRouter;

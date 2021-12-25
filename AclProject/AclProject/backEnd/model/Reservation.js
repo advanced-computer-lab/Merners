@@ -13,6 +13,21 @@ const reservationSchema = new Schema ({ //the name of the columns shoukd always 
         required : true ,
         trim: true 
     },
+    adultsNumber:{
+        type: Number ,
+        required : true ,
+        trim: true 
+    },
+    childrenNumber:{
+        type: Number ,
+        required : true ,
+        trim: true 
+    },
+    totalPrice:{
+        type: Number ,
+        required : true ,
+        trim: true 
+    },
     classChoosen:{
         type: String ,
         required : true ,

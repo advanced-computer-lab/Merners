@@ -2,7 +2,7 @@ import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import {useParams} from 'react-router-dom'
-import Header from'./Header'
+import Header from'./HeaderGuest'
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import {Grid, GridColumn} from 'semantic-ui-react';
@@ -11,7 +11,7 @@ import { Card , Container , Row , Col} from "react-bootstrap";
 import {SiLotpolishairlines} from 'react-icons/si';
 import Alert from '@mui/material/Alert';
 
-function Showdetret() {
+function ShowdetretGuest() {
     const id=useParams();
     const options = [];
     const params = { "params": id };
@@ -76,7 +76,7 @@ const HandleSubmit = (e) => {
             }
             else{
        
-                window.location.href = "http://localhost:3000/chooseSeats2/"+params.params._idr+"/"+Class.key+"/"+adultsr+"/"+childrenr+"/"+tnopr+"/"+idd+"/"+params.params.class+"/"+params.params.seats+"/"+params.params.totalseats+"/"+adultsd+"/"+childrend+"/"+tnopd+"/"+params.params.user_id+"/";
+                window.location.href = "http://localhost:3000/chooseSeats2Guest/"+params.params._idr+"/"+Class.key+"/"+adultsr+"/"+childrenr+"/"+tnopr+"/"+idd+"/"+params.params.class+"/"+params.params.seats+"/"+params.params.totalseats+"/"+adultsd+"/"+childrend+"/"+tnopd;
 }
             
           }
@@ -86,7 +86,7 @@ const HandleSubmit = (e) => {
             }
             else{
        
-                window.location.href = "http://localhost:3000/chooseSeats2/"+params.params._idr+"/"+Class.key+"/"+adultsr+"/"+childrenr+"/"+tnopr+"/"+idd+"/"+params.params.class+"/"+params.params.seats+"/"+params.params.totalseats+"/"+adultsd+"/"+childrend+"/"+tnopd+"/"+params.params.user_id+"/";
+                window.location.href = "http://localhost:3000/chooseSeats2Guest/"+params.params._idr+"/"+Class.key+"/"+adultsr+"/"+childrenr+"/"+tnopr+"/"+idd+"/"+params.params.class+"/"+params.params.seats+"/"+params.params.totalseats+"/"+adultsd+"/"+childrend+"/"+tnopd;
 }
         
            }   
@@ -96,7 +96,7 @@ const HandleSubmit = (e) => {
             }
             else{
                 
-                window.location.href = "http://localhost:3000/chooseSeats2/"+params.params._idr+"/"+Class.key+"/"+adultsr+"/"+childrenr+"/"+tnopr+"/"+idd+"/"+params.params.class+"/"+params.params.seats+"/"+params.params.totalseats+"/"+adultsd+"/"+childrend+"/"+tnopd+"/"+params.params.user_id+"/";
+                window.location.href = "http://localhost:3000/chooseSeats2Guest/"+params.params._idr+"/"+Class.key+"/"+adultsr+"/"+childrenr+"/"+tnopr+"/"+idd+"/"+params.params.class+"/"+params.params.seats+"/"+params.params.totalseats+"/"+adultsd+"/"+childrend+"/"+tnopd;
  }
         }
         }
@@ -282,4 +282,4 @@ const HandleSubmit = (e) => {
     )
 }
 
-export default Showdetret
+export default ShowdetretGuest

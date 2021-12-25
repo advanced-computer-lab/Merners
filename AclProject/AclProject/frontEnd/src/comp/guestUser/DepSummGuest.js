@@ -2,38 +2,20 @@ import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import {useParams} from 'react-router-dom'
-import Header from'./Header'
-import Dropdown from 'react-dropdown';
+import HeaderGuest from './HeaderGuest'
 import 'react-dropdown/style.css';
+import { Card , Container , Row , Col} from "react-bootstrap";
 import {Grid, GridColumn} from 'semantic-ui-react';
 import {Button,Paper} from '@material-ui/core';
-import { Card , Container , Row , Col} from "react-bootstrap";
 import {SiLotpolishairlines} from 'react-icons/si';
-import Alert from '@mui/material/Alert';
 
-function Showdetret() {
+function DepSummGuest() {
     const id=useParams();
-    const options = [];
+  
     const params = { "params": id };
-    const idd=params.params._idd
-    var adultsd=params.params.adnod;
-    var childrend=params.params.chnod;
-    var tnopd=params.params.tnopd;
     const [flight, setflight] = useState({ flightNumber: "", departureTime: "", arrivalTime: "", departureDate: "", arrivalDate: "",terminal:"", firstSeatsAvailable: "", firstSeatsLuggage: "", firstSeatsPrice: "", economySeatsAvailable: "", economySeatsLuggage: "", economySeatsPrice: "", businessSeatsAvailable: "", businessSeatsLuggage: "", businessSeatsPrice: "", airport: "", from: "", to: ""});
-    const [Class, setClass] = useState({ key: ""})
-    const idr = {"params":{"_idr":params.params._idr}};
-    var [childrenr, setchildr] = useState(0)
-    var [adultsr, setadultsr] = useState(0)
-    const [error ,setError] = useState(null);
-
-    if(error !== null)
-    {
-        setTimeout(() => {
-            setError(null);
-          }, 2000);
-    }
-
-
+    const [tp, settp] = useState(0);
+    const [ba, setba] = useState("");
     const arrivalYear = Number(flight.arrivalDate.substring(0,4));
     const departureYear = Number(flight.departureDate.substring(0,4));
     const arrivalMon = Number(flight.arrivalDate.substring(5,7));
@@ -48,72 +30,44 @@ function Showdetret() {
     const hours = Math.floor(d / 60);
     const minutes = d % 60;
     const duration= hours+" hours and "+minutes+ " minutes";
-    if(flight.firstSeatsAvailable > 0)
-        options.push("First class");
-    if(flight.economySeatsAvailable > 0)
-        options.push("Economy class");
-    if(flight.businessSeatsAvailable > 0)
-        options.push("Business class");
-
-  
-const HandleSubmit = (e) => {
-    var tnopr=Number(adultsr)+Number(childrenr);
-    if(Class.key === ""){
-        e.preventDefault();
-        setError("Select a class.");
-    }
-    else if(tnopr==0){
-        e.preventDefault();
-        setError("number of seats needed can not be 0");
-    }
     
-    else{
-        
+    const  HandleSubmit = (e) => {
         e.preventDefault();
-        if(Class.key === "First class"){
-            if(tnopr>flight.firstSeatsAvailable){
-                setError("number of seats needed can not be bigger than number of available seats");
-            }
-            else{
-       
-                window.location.href = "http://localhost:3000/chooseSeats2/"+params.params._idr+"/"+Class.key+"/"+adultsr+"/"+childrenr+"/"+tnopr+"/"+idd+"/"+params.params.class+"/"+params.params.seats+"/"+params.params.totalseats+"/"+adultsd+"/"+childrend+"/"+tnopd+"/"+params.params.user_id+"/";
-}
-            
-          }
-           else if(Class.key === "Economy class"){
-            if(tnopr>flight.economySeatsAvailable){
-                setError("number of seats needed can not be bigger than number of available seats");
-            }
-            else{
-       
-                window.location.href = "http://localhost:3000/chooseSeats2/"+params.params._idr+"/"+Class.key+"/"+adultsr+"/"+childrenr+"/"+tnopr+"/"+idd+"/"+params.params.class+"/"+params.params.seats+"/"+params.params.totalseats+"/"+adultsd+"/"+childrend+"/"+tnopd+"/"+params.params.user_id+"/";
-}
-        
-           }   
-           else if(Class.key === "Business class"){
-            if(tnopr>flight.businessSeatsAvailable){
-                setError("number of seats needed can not be bigger than number of available seats");
-            }
-            else{
-                
-                window.location.href = "http://localhost:3000/chooseSeats2/"+params.params._idr+"/"+Class.key+"/"+adultsr+"/"+childrenr+"/"+tnopr+"/"+idd+"/"+params.params.class+"/"+params.params.seats+"/"+params.params.totalseats+"/"+adultsd+"/"+childrend+"/"+tnopd+"/"+params.params.user_id+"/";
- }
-        }
-        }
-}
+        var adultsd=params.params.adnod;
+        var childrend=params.params.chnod;
+        var tnopd=params.params.tnopd;
+        window.location.href = "http://localhost:3000/ReturnFlightGuest/"+params.params._id+"/"+params.params.class+"/"+params.params.seats+"/"+params.params.totalseats+"/"+adultsd+"/"+childrend+"/"+tnopd;
+      
+    }
 
     useEffect(() => {
-        console.log(idr);
-    console.log("henaaaaaa")
-    axios.get('http://localhost:8000/flights/flight', idr).then(resp => { setflight(resp.data) }).catch((err) => { console.log(err) });
-        
+        console.log(params);
+   
+       // console.log(flight.firstSeatsPrice*(params.params.totalseats));
+        axios.get('http://localhost:8000/flights/flight', params).then(resp => { setflight(resp.data) }).catch((err) => { console.log(err) });
+       
     },[]);
+  useEffect(()=>{
+    if(params.params.class === "First class"){
+        setba(flight.firstSeatsLuggage);
+        settp(flight.firstSeatsPrice*(params.params.adnod)+ flight.firstSeatsPrice*(params.params.chnod)*0.7);
+       
+      }
+       else if(params.params.class === "Economy class"){
+        setba(flight.economySeatsLuggage);
+        settp(flight.economySeatsPrice*(params.params.adnod) + flight.economySeatsPrice*(params.params.chnod)*0.7);
+       }   
+       else if(params.params.class === "Business class"){
+        setba(flight.businessSeatsLuggage);
+        settp(flight.businessSeatsPrice*(params.params.adnod) + flight.businessSeatsPrice*(params.params.chnod)*0.7);
+    }
+
+  },[flight]);
 
     return (
         <div>
-        <Header /> <br/>
-         <span style ={{fontWeight: '900' , fontSize: 70 , color: 'white', fontFamily: 'ui-sans-serif'}}>Return Flight Details</span>
-         {error && <Alert style={{backgroundColor: 'rgb(244, 67, 54,0.3)'}}severity="error"><strong> {error}</strong></Alert>}
+          <HeaderGuest />
+         <span style ={{fontWeight: '900' , fontSize: 70 , color: 'white', fontFamily: 'ui-sans-serif'}}>Flight Summary</span>
          <form onSubmit={(e) => {HandleSubmit(e);}}>
 
              <Container>
@@ -208,12 +162,12 @@ const HandleSubmit = (e) => {
                               <GridColumn />
                               <GridColumn />
                               <Grid.Column>
-                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>FIRST LUGGAGE </h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.firstSeatsLuggage} KG</span>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>CLASS CHOSEN</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{params.params.class} </span>
                               </Grid.Column>   
                               <GridColumn />
                               <GridColumn />
                               <Grid.Column>
-                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>FIRST PRICE</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.firstSeatsPrice} €</span>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>TOTAL PRICE</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{tp} €</span>
                               </Grid.Column>
                             </Grid.Row>
 
@@ -222,37 +176,25 @@ const HandleSubmit = (e) => {
                             <Grid.Row>
                             <GridColumn />
                               <Grid.Column>
-                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>FIRST SEATS</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.firstSeatsAvailable} </span>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>CHOSEN SEATS</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{params.params.seats} </span>
                               </Grid.Column>
                               <GridColumn />
                               <GridColumn />
                               <Grid.Column>
-                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>ECONOMY LUGGAGE </h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.economySeatsLuggage} KG</span>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>LUGGAGE ALLOWANCE</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{ba} KG</span>
                               </Grid.Column>
                               <GridColumn />
+                              <GridColumn />
                               <Grid.Column>
-                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>ECONOMY PRICE </h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.economySeatsPrice} €</span>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>ADULTS</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{params.params.adnod} </span>
                               </Grid.Column>   
                               <GridColumn />
-                              <Grid.Column>
-                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>ECONOMY SEATS</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.economySeatsAvailable} </span>
-                              </Grid.Column>
-                            </Grid.Row>
-                            
-                            <Grid.Row>
-                            <GridColumn />
-                              <Grid.Column>
-                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>BUISNESS PRICE</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.businessSeatsPrice} €</span>
-                              </Grid.Column>
                               <GridColumn />
                               <Grid.Column>
-                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>BUISNESS LUGGAGE </h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.businessSeatsLuggage} KG</span>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>CHILDREN</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{params.params.chnod} </span>
                               </Grid.Column>
-                              <GridColumn />
-                              <Grid.Column>
-                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>BUISNESS SEATS </h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.businessSeatsAvailable}</span>
-                              </Grid.Column>   
                             </Grid.Row>
+                        
 
                              </Grid>
                           
@@ -266,20 +208,13 @@ const HandleSubmit = (e) => {
                     <Col/>
                     </Row>
                     </Container>
-                    <Paper elevation={10} style={{padding :20,height:'25vh',width:500, margin:"20px auto" , backgroundColor:'rgb(255, 255, 255,0.7)'}}>
-                    <h3 > Adult:</h3>
-                    <input type="number" min = "0" id="AdultsNumber" name="AdultsNumber" value={adultsr} onChange={(e) => { setadultsr(e.target.value) }} ></input><br /><br></br>
+                   
+                    <Button type='submit' variant="contained" style={{margin:'6px 0' , backgroundColor:'rgb(160, 208, 226)'}}>CHOOSE RETURN FLIGHT</Button> 
+                    
 
-                      <h3> Children: </h3>
-                      <input type="number" min = "0" id="ChildrenNumber" name="ChildrenNumber" value={childrenr} onChange={(e) => { setchildr(e.target.value) }} ></input><br /><br></br>
-                     
-                      <Dropdown options={options} placeholder="Select a class" onChange={(e) => { setClass({key: e.value }); }}></Dropdown><br/> 
-          </Paper>
-            <Button type='submit' variant="contained" style={{margin:'6px 0' , backgroundColor:'rgb(160, 208, 226)'}}>Proceed to choosing seats</Button>   
-           
         </form>
+        
     </div>
-    )
+           )
 }
-
-export default Showdetret
+export default DepSummGuest

@@ -1,13 +1,13 @@
+import { Grid,Paper, Avatar, TextField, Button, Typography,Link } from '@material-ui/core';
 import React, { useState } from 'react';
-import { Form , Col ,Row ,Button} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
-import MainScreen from './mainScreen';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import {Row , Col} from "react-bootstrap";
 import axios from 'axios';
 import Loading from "./Loading";
-import ErrorMessage from "./ErrorMessage";
+import Alert from '@mui/material/Alert';
 
-const Register = () => {
 
+const Register=()=>{
     const [username , setUsername] = useState("");
     const [firstName , setFirstName] = useState("");
     const [lastName , setLastName] = useState("");
@@ -24,45 +24,93 @@ const Register = () => {
     const submitHandler = async(e) => {
         e.preventDefault();
         
+        var flag = phoneNumber.length !== 11 ;
+         if(flag)
+            setError('Phone Number Should be 11 charecters');
+        else
         if(password !== confirmpassword)
-            setError('Passwords do not match');
-            else
+        setError('Passwords do not match');
+        else
+        {
+            setMessage(null)
+            try
             {
-                setMessage(null)
-                try
-                {
-                    const config = {
-                        headers: {
-                            "Content-type": "application/json"
-                        }
+                const config = {
+                    headers: {
+                        "Content-type": "application/json"
                     }
-                    setLoading(true);
-                    console.log(username);
-                    const { data } = await axios.post(
-                        'http://localhost:8000/users/register',
-                        {
-                           username: username,
-                           firstName: firstName,
-                           lastName: lastName,
-                           email: email,
-                           homeAddress: homeAddress,
-                           phoneNumber: phoneNumber,
-                           passportNumber: passportNumber,
-                           password: password
-                        },
-                        config 
-                        );
-                        setLoading(false);
-                        if(data == null)
-                            setError("Please Check all the fields")
-                        console.log(data)
+                }
+                setLoading(true);
+                if(firstName.length == 0)
+            {
+                setError("Fisrt name can not be empty");
+                throw new Error() ;
+            }
+
+            if(lastName.length == 0)
+            {
+                setError("Last name can not be empty");
+                throw new Error() ;
+            }
+
+            if(email.length == 0)
+            {
+                setError("Email can not be empty");
+                throw new Error() ;
+            }
+
+            if(homeAddress.length == 0)
+            {
+                setError("Home address can not be empty");
+                throw new Error() ;
+            }
+
+            if(phoneNumber.length !== 11)
+            {
+                setError("Phone number is not correct");
+                throw new Error() ;
+            }
+
+            if(passportNumber.length == 0)
+            {
+                setError("Email can not be empty");
+                throw new Error() ;
+            }
+
+                const { data } = await axios.post(
+                    'http://localhost:8000/users/register',
+                    {
+                       username: username,
+                       firstName: firstName,
+                       lastName: lastName,
+                       email: email,
+                       homeAddress: homeAddress,
+                       phoneNumber: phoneNumber,
+                       passportNumber: passportNumber,
+                       password: password
+                    },
+                    config 
+                    );
+                    console.log(data);  
+                    setLoading(false);
+                    if(data === null)
+                        setError("Please check all the fields")
+
+                    if(data.username === null)
+                        setError("Username already used")
+                    
+                    if(data.email === null)
+                        setError("Email address already used")    
+
+                    if( data !== null && data.email !== null && data.username !== null)
                         window.location = '/'
                 }
                 catch(error)
                 {
                     console.log(error.message)
                     setLoading(false);
-                    setError("error occured please check all the fields");
+                    if(error == null)
+                        setError("error occured please check all the fields");
                 }
 
             }
@@ -70,87 +118,69 @@ const Register = () => {
 
     }
 
-    
-    return (
-        <MainScreen title = "REGISTER">
-            <div className = "loginContainer">
-            {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-            {message && <ErrorMessage variant="info">{message}</ErrorMessage>}
-            {loading && <Loading />}    
-                <Form onSubmit = {submitHandler}>
-                    <Form.Label>Username:</Form.Label>
-                     <Form.Control
-                         type ="username"
-                         value = {username}
-                         placeHolder = "Enter username"
-                         onChange ={(e) => {setUsername(e.target.value);setError(null);setMessage(null);}}/>
-                         <Form.Label>First Name:</Form.Label>
-                     <Form.Control
-                         type ="fname"
-                         value = {firstName}
-                         placeHolder = "Enter First Name"
-                         onChange= {(e) => {setFirstName(e.target.value);setError(null);setMessage(null);}}/>
-                         <Form.Label>Last Name:</Form.Label>
-                     <Form.Control
-                         type ="lname"
-                         value = {lastName}
-                         placeHolder = "Enter Last Name"
-                         onChange ={(e) => {setLastName(e.target.value);setError(null);setMessage(null);}}/>
-                      <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control
-                      type="email"
-                      value = {email}
-                      placeholder="Enter email"
-                      onChange = {(e) => {setEmail(e.target.value);setError(null);setMessage(null);}}/>
-                       </Form.Group>
-                    <Form.Label>Home Address:</Form.Label>
-                     <Form.Control
-                         type ="homeAddress"
-                         value = {homeAddress}
-                         placeHolder = "Enter Home Address"
-                         onChange = {(e) => {setHomeAddress(e.target.value);setError(null);setMessage(null);}}/>
-                    <Form.Label>Phone Number:</Form.Label>
-                     <Form.Control
-                         type ="phoneNumber"
-                         value = {phoneNumber}
-                         placeHolder = "01xxxxxxxxx"
-                         onChange = {(e) => {setPhoneNumber(e.target.value);setError(null);setMessage(null);}} minLength = {11} maxLength={11}/>
-                    <Form.Label>Passport Number:</Form.Label>
-                     <Form.Control
-                         type ="paasportNumber"
-                         value = {passportNumber}
-                         placeHolder = "Enter Passport Number"
-                         onChange = {(e) => {setPassportNumber(e.target.value);setError(null);setMessage(null);}}/> 
-            <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              value = {password}
-              placeholder="Password"
-              onChange = {(e) => {setPassword(e.target.value);setError(null);setMessage(null);}} minLength = {3}/>
-          </Form.Group>
 
-          <Form.Group controlId="confirmPassword">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              value = {confirmpassword}
-              placeholder="Confirm Password" 
-              onChange = {(e) => {setConfirmPassword(e.target.value);setError(null);setMessage(null);}} minLength = {3}/>      
-          </Form.Group>   
-          <Button variant="primary" type="submit">
-            Register
-          </Button>
-        </Form>
-        <Row className="py-3">
-          <Col>
-            Have an Account ? <Link to="/">Login</Link>
-          </Col>
-        </Row>
+    return(
+        <Grid>
+              {loading && <Loading />}
+            <Paper elevation={10} style={{padding :20,height:'58vh',width:500, margin:"20px auto"}}>
+                <Grid align='center'>
+                <Avatar style={{backgroundColor:'rgb(160, 208, 226)'}}><AppRegistrationIcon/></Avatar>
+                    <h2>Register</h2>
+                </Grid>
+                {error && <Alert  style={{backgroundColor: 'rgb(244, 67, 54,0.3)'}} severity="error"><strong> {error}</strong> </Alert> }
+             
+                <Row>
+                    <Col>
+                        <TextField label='First Name' type ='text'inputProps={{ minLength: 1}}  onChange= {(e) => {setFirstName(e.target.value);setError(null);setMessage(null);}} required/>
+                    </Col>
+                    <Col>
+                        <TextField label='Last Name' type ='text' inputProps={{ minLength: 1}}  onChange ={(e) => {setLastName(e.target.value);setError(null);setMessage(null);}} required />
+                    </Col>
+                </Row>
                 
-            </div>
-        </MainScreen>
+                <Row>
+                    <Col>
+                        <TextField label='Email'  placeholder='example@email.com' type ='email' onChange = {(e) => {setEmail(e.target.value);setError(null);setMessage(null);}} required/>
+                    </Col>
+                    <Col>
+                        <TextField label='Username' type = 'text' required onChange ={(e) => {setUsername(e.target.value);setError(null);setMessage(null);}} />
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col>
+                        <TextField label='Home Address'  placeholder='Street, City, Country' type ='text' required onChange = {(e) => {setHomeAddress(e.target.value);setError(null);setMessage(null);}}/>
+                    </Col>
+                    <Col>
+                        <TextField label='Phone Number' placeholder='01xxxxxxxxx' inputProps={{ maxLength: 11 , maxLength : 11}} required onChange = {(e) => {setPhoneNumber(e.target.value);setError(null);setMessage(null);}}/>
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col>
+                        <TextField label='Password' type ='password' inputProps={{ minLength: 3}} required onChange = {(e) => {setPassword(e.target.value);setError(null);setMessage(null);}}/>
+                    </Col>
+                    <Col>
+                        <TextField label='Confirm Password' type ='password' required inputProps={{ minLength: 3}} onChange = {(e) => {setConfirmPassword(e.target.value);setError(null);setMessage(null);}}/>
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col>
+                        <TextField label='Passport Number' type ='text' required  onChange = {(e) => {setPassportNumber(e.target.value);setError(null);setMessage(null);}}/>
+                    </Col>
+                    <Col/>
+                </Row>
+                <br/>
+                <Button type='submit' variant="contained" style={{margin:'8px 0' , backgroundColor:'rgb(160, 208, 226)'}} fullWidth onClick={submitHandler}>Register</Button>
+                <br/><br/>
+                <Typography > You have an account ?
+                     <Link href="/" >
+                        Login
+                </Link>
+                </Typography>
+            </Paper>
+        </Grid>
     )
 }
 

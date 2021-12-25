@@ -1,13 +1,16 @@
 //using express
 const express=require('express');
-const app =express();
+const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer')
 const mongoose=require('mongoose');
 
+const { v4: uuidv4 } = require('uuid');
 
 require('dotenv').config();
+
+
 
 const userRouter=require('./routes/UserRoutes');
 const User=require('./model/User.js');
@@ -21,10 +24,14 @@ const ReservedFlight=require('./model/ReservedFlight.js');
 
 
 
+
 const uri = process.env.ATLAS_URI ;
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(result =>console.log("MongoDB is now connected") )
 .catch(err => console.log(err));
+
+
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -71,6 +78,44 @@ app.post("/sendMail" , cors() , async(req,res)=>{
    }
 
 })
+
+app.post("/payment", (req,res)=>{
+    const {price,to,token} = req.body ;
+
+    const idempontencyKey = uuidv4();
+
+    return stripe.customers.create({
+        email: token.email , 
+        source: token.id
+    }).then(customer =>{
+        stripe.charges.create({
+            amount: price * 100,
+            currency:"eur",
+            customer: customer.id,
+            receipt_email: token.email,
+            description: `Flight to ${to} Payment`
+        },{idempontencyKey})
+    })
+    .then(result => res.status(200).json(result))
+    .catch(err=> console.log(err))
+})
+
+app.post("/create-payment-intent", async (req, res) => {
+    const flight= req.body.flight;
+  
+    // Create a PaymentIntent with the order amount and currency
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: flight.price,
+      currency: "eur",
+      automatic_payment_methods: {
+        enabled: true,
+      },
+    }).status;
+  
+    res.send({
+        clientSecret: paymentIntent.client_secret
+    });
+  });
 
 const port = process.env.PORT || "8000";
 

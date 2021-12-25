@@ -37,9 +37,9 @@ const userSchema = new Schema ({
         trim: true ,
     },
     passportNumber: {
-        type: Number ,
+        type: String ,
         required : true ,
-        trim: true ,
+        trim: true 
     },
     password: {
         type: String ,

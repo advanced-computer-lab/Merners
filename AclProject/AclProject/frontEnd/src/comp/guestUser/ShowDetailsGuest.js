@@ -1,16 +1,16 @@
 import axios from 'axios'
 import { useState, useEffect ,React} from 'react'
 import {useParams} from 'react-router-dom'
-import Header from'./Header'
 import Dropdown from 'react-dropdown';
 import {Grid, GridColumn} from 'semantic-ui-react';
 import {Button,Paper} from '@material-ui/core';
 import { Card , Container , Row , Col} from "react-bootstrap";
 import {SiLotpolishairlines} from 'react-icons/si';
 import Alert from '@mui/material/Alert';
+import HeaderGuest from './HeaderGuest';
 
 
-function ShowDetails() {
+function ShowDetailsGuest() {
     const id=useParams();
     const options = [];
     const params = { "params": id };
@@ -54,7 +54,7 @@ function ShowDetails() {
             e.preventDefault();
             setError("Select a class.");
         }
-        else if(tnop==0){
+        else if(tnop===0){
             e.preventDefault();
             setError("number of seats needed can not be 0");
         }
@@ -68,7 +68,7 @@ function ShowDetails() {
                 }
                 else{
            
-                    window.location.href = "http://localhost:3000/chooseSeats/"+params.params._id+"/"+Class.key+"/"+adults+"/"+children+"/"+tnop+"/"+params.params.user_id;
+                    window.location.href = "http://localhost:3000/chooseSeatsGuest/"+params.params._id+"/"+Class.key+"/"+adults+"/"+children+"/"+tnop;
                 }
                 
               }
@@ -78,7 +78,7 @@ function ShowDetails() {
                 }
                 else{
            
-                    window.location.href = "http://localhost:3000/chooseSeats/"+params.params._id+"/"+Class.key+"/"+adults+"/"+children+"/"+tnop+"/"+params.params.user_id;
+                    window.location.href = "http://localhost:3000/chooseSeatsGuest/"+params.params._id+"/"+Class.key+"/"+adults+"/"+children+"/"+tnop;
                 }
             
                }   
@@ -88,7 +88,7 @@ function ShowDetails() {
                 }
                 else{
                     localStorage.setItem("depFlight", JSON.stringify(flight));
-                    window.location.href = "http://localhost:3000/chooseSeats/"+params.params._id+"/"+Class.key+"/"+adults+"/"+children+"/"+tnop+"/"+params.params.user_id;
+                    window.location.href = "http://localhost:3000/chooseSeatsGuest/"+params.params._id+"/"+Class.key+"/"+adults+"/"+children+"/"+tnop;
                 }
             }
             }
@@ -96,16 +96,15 @@ function ShowDetails() {
 
     useEffect(() => {
         console.log(params);
-        axios.get('http://localhost:8000/flights/flight', params).then(resp => { setflight(resp.data) 
-           
-    }).catch((err) => { console.log(err) });
+        axios.get('http://localhost:8000/flights/flight', params).then(resp => { setflight(resp.data) }).catch((err) => { console.log(err) });
         // alert(flight.firstSeatsAvailablePositions.length)
     },[]);
 
     return (
         
         <div>
-            <Header /> <br/>
+            <HeaderGuest />
+            <br/> <br/>
              <span style ={{fontWeight: '900' , fontSize: 70 , color: 'white', fontFamily: 'ui-sans-serif'}}>Departure Flight Details</span>
              {error && <Alert style={{backgroundColor: 'rgb(244, 67, 54,0.3)'}} severity="error"><strong> {error}</strong></Alert>}
              <form onSubmit={(e) => {HandleSubmit(e);}}>
@@ -277,4 +276,4 @@ function ShowDetails() {
     )
 }
 
-export default ShowDetails;
+export default ShowDetailsGuest;

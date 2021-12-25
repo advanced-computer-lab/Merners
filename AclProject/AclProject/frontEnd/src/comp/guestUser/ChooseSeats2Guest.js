@@ -2,11 +2,11 @@ import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import {useParams} from 'react-router-dom'
-import Header from'./Header'
+import HeaderGuest from'./HeaderGuest'
 import { Button } from '@material-ui/core';
 import Alert from '@mui/material/Alert';
 
-function ChooseSeats2() {
+function ChooseSeats2Guest() {
     const id=useParams();
     const params = { "params": id };
     const [flight, setflight] = useState({ flightNumber: "", departureTime: "", arrivalTime: "", departureDate: "", arrivalDate: "",terminal:"", firstSeatsAvailable: "", firstSeatsLuggage: "", firstSeatsPrice: "", economySeatsAvailable: "", economySeatsLuggage: "", economySeatsPrice: "", businessSeatsAvailable: "", businessSeatsLuggage: "", businessSeatsPrice: "", airport: "", from: "", to: "", firstSeatsAvailablePositions: [], economySeatsAvailablePositions: [], businessSeatsAvailablePositions: []});
@@ -55,25 +55,19 @@ function ChooseSeats2() {
         var adultsr=params.params.adnor;
         var childrenr=params.params.chnor;
         var tnopr=params.params.tnopr;
-        // alert(greenSeats2);
     
         /////
         if(tnopr==greenSeats.length){
-           // window.location.href = "http://localhost:3000/DepSumm/"+params.params._id+"/"+params.params.class+"/"+greenSeats+"/"+greenSeats.length+"/"+adultsd+"/"+childrend+"/"+tnopd+"/"+params.params.user_id;
-           localStorage.setItem("reFlight", JSON.stringify(flight)); 
-           window.location.href = "http://localhost:3000/FinalSumm/"+params.params._idd+"/"+params.params.classd+"/"+params.params.seats+"/"+params.params.totalseats+"/"+adultsd+"/"+childrend+"/"+tnopd+"/"+params.params._id+"/"+params.params.class+"/"+greenSeats+"/"+greenSeats.length+"/"+adultsr+"/"+childrenr+"/"+tnopr+"/"+params.params.user_id;
+           window.location.href = "http://localhost:3000/FinalSummGuest/"+params.params._idd+"/"+params.params.classd+"/"+params.params.seats+"/"+params.params.totalseats+"/"+adultsd+"/"+childrend+"/"+tnopd+"/"+params.params._id+"/"+params.params.class+"/"+greenSeats+"/"+greenSeats.length+"/"+adultsr+"/"+childrenr+"/"+tnopr+"/";
        
         }
         else{
             setError("Number of seats chosen must be equal to selected");
         }
 
-        /////
-        //window.location.href = "http://localhost:3000/FinalSumm/"+params.params._idd+"/"+params.params.classd+"/"+params.params.seats+"/"+params.params.totalseats+"/"+params.params._id+"/"+params.params.class+"/"+greenSeats+"/"+greenSeats.length+"/"+params.params.user_id;
-    }
+         }
 
     useEffect(() => {
-        //console.log(params.params._idr);
         axios.get('http://localhost:8000/flights/flight', iddd).then(resp => { setflight(resp.data) }).catch((err) => { console.log(err) });
       
     },[]);
@@ -114,7 +108,7 @@ useEffect(()=>{
     
     return (
         <div>
-            <Header />
+            <HeaderGuest />
             <br/>
             <span style ={{fontWeight: '900' , fontSize: 70 , color: 'white', fontFamily: 'ui-sans-serif'}}>Choose Your Seats</span>
             <br/><br/>{error && <Alert style={{backgroundColor: 'rgb(244, 67, 54,0.3)'}} severity="error"><strong> {error}</strong></Alert>}
@@ -355,4 +349,4 @@ useEffect(()=>{
     )
 }
 
-export default ChooseSeats2;
+export default ChooseSeats2Guest;

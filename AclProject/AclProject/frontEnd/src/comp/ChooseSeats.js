@@ -3,7 +3,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import {useParams} from 'react-router-dom'
 import Header from './Header'
-import MainScreen from './mainScreen'
+import { Button } from '@material-ui/core';
+import Alert from '@mui/material/Alert';
 
 function ChooseSeats() {
     const id=useParams();
@@ -16,6 +17,7 @@ function ChooseSeats() {
     const [greenSeats, setGreenSeats] = useState([]);
     const iddd = {"params":{"_id":params.params._id}};
     const [color, setmo7sen] = useState([]);
+    const [error,setError] = useState(null);
     const colors = [];
 
     var dividedBy4 = [];
@@ -35,6 +37,12 @@ function ChooseSeats() {
     if(sa.length == dividedBy4.length*4 + 3){
         remaining3.push(true);
     }
+    if(error !== null)
+    {
+        setTimeout(() => {
+            setError(null);
+          }, 2000);
+    }
 
 
     const HandleSubmit = (e) => {
@@ -49,7 +57,7 @@ function ChooseSeats() {
         window.location.href = "http://localhost:3000/DepSumm/"+params.params._id+"/"+params.params.class+"/"+greenSeats+"/"+greenSeats.length+"/"+adultsd+"/"+childrend+"/"+tnopd+"/"+params.params.user_id;
     }
     else{
-        alert("Number of seats chosen must be equal to selected");
+        setError("Number of seats chosen must be equal to selected");
     }
 
 }
@@ -98,25 +106,25 @@ useEffect(()=>{
     
     return (
         <div>
-            <MainScreen  title = 'Choose Your Seats' style = {{display : 'flex'}}>
             <Header />
-            <br/><br/>
+            <br/>
+            <span style ={{fontWeight: '900' , fontSize: 70 , color: 'white', fontFamily: 'ui-sans-serif'}}>Choose Your Seats</span>
+            <br/><br/>{error && <Alert style={{backgroundColor: 'rgb(244, 67, 54,0.3)'}} severity="error"><strong> {error}</strong></Alert>}
+
+            <span style ={{fontWeight: '500' , fontSize: 30 , color: 'white', fontFamily: 'ui-sans-serif'}}>Please choose {params.params.tnop} seat(s)</span>
             <form onSubmit={(e) => {
                 HandleSubmit(e); 
 
             }}>
 
+                <table className="table" style={{marginLeft:"700px" ,width:"2000px"}}>
 
-                <table className="table" style={{marginLeft:"435px"}}>
-                        <tr>
                             
                             <th>c1</th> 
                             <th>c2</th> 
                             <th></th> 
                             <th>c3</th> 
                             <th>c4</th> 
-                           
-                        </tr>
                    
           <tbody>
           {dividedBy4.map((number) => 
@@ -327,11 +335,10 @@ useEffect(()=>{
           
               </tbody>
         </table>
+        <Button type='submit' variant="contained" style={{margin:'6px 0' , backgroundColor:'rgb(160, 208, 226)'}}>Confirm</Button>    
 
-                 <input type="submit" value="Choose seats"></input> 
 
 </form>
-</MainScreen>
 </div>   
     )
 }

@@ -2,12 +2,12 @@ import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import {useParams} from 'react-router-dom'
-import Header from'./Header'
 import 'react-dropdown/style.css';
 import Alert from '@mui/material/Alert';
 import {Typography ,Link} from '@material-ui/core'
+import HeaderGuest from './HeaderGuest';
 
-function ReturnFlight() {
+function ReturnFlightGuest() {
     const id=useParams();
     
     const[message ,setMessage] = useState(null);
@@ -99,7 +99,8 @@ console.log(qu)
    },[flight])
     return (
         <div>
-           <Header />
+            <HeaderGuest />
+            <br/> <br/>
            <span style ={{fontWeight: '900' , fontSize: 70 , color: 'white', fontFamily: 'ui-sans-serif'}}>Return Flights</span>
 
            {message && <Alert style={{backgroundColor: 'rgb(244, 67, 54,0.3)'}} severity="error"><strong> {message} <Typography > Return to<Link href={"/AllFlightsUser/" + idd}> All Flights </Link> </Typography></strong></Alert>}
@@ -154,7 +155,7 @@ console.log(qu)
               <td>{data.economySeatsLuggage}</td> 
               <td>{data.economySeatsPrice}</td> 
               <td>
-                <Link style={{fontWeight:900 , fontSize: 15}} href={`/Showdetret/${data._id}`+"/"+ idd+"/"+params.params.class+"/"+params.params.seats+"/"+params.params.totalseats+"/"+adultsd+"/"+childrend+"/"+tnopd+"/"+params.params.user_id} >Reserve</Link>
+                <Link style={{fontWeight:900 , fontSize: 15}} href={`/ShowdetretGuest/${data._id}`+"/"+ idd+"/"+params.params.class+"/"+params.params.seats+"/"+params.params.totalseats+"/"+adultsd+"/"+childrend+"/"+tnopd} >Reserve</Link>
               </td> 
               
                 
@@ -171,4 +172,4 @@ console.log(qu)
     )
 }
 
-export default ReturnFlight
+export default ReturnFlightGuest

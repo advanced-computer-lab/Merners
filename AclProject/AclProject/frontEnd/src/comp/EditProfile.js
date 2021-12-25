@@ -1,10 +1,13 @@
 import React, { useState ,useEffect } from 'react';
-import { Form , Col ,Row ,Button} from 'react-bootstrap';
+import { Form , Col ,Row } from 'react-bootstrap';
 import MainScreen from './mainScreen';
 import axios from 'axios';
 import Loading from "./Loading";
 import ErrorMessage from "./ErrorMessage";
 import Header from './Header';
+import { Grid,Paper, Avatar, TextField, Button, Typography,Link } from '@material-ui/core'
+import ModeEdit from  '@mui/icons-material/ModeEdit';
+import Alert from '@mui/material/Alert';
 
 
 
@@ -21,6 +24,22 @@ const EditProfile = () => {
     const [message , setMessage] = useState(null);
     const [error , setError] = useState(false);
     const [loading , setLoading] = useState(false);
+
+    if(message !== null)
+    {
+        setTimeout(() => {
+            setMessage(null);
+          }, 3000);
+    }
+
+    if(error !== null)
+    {
+        setTimeout(() => {
+            setError(null);
+          }, 3000);
+    }
+    
+  
     
     useEffect(() => {
        setFirstName(user.firstName);
@@ -30,6 +49,7 @@ const EditProfile = () => {
        setPhoneNumber(user.phoneNumber);
        setPassportNumber(user.passportNumber);
     },[]);
+    
 
     const submitHandler = async(e) => {
         e.preventDefault();
@@ -41,6 +61,47 @@ const EditProfile = () => {
                     "Content-type": "application/json"
                 }
             }
+
+            if(firstName.length == 0)
+            {
+                setError("Fisrt name can not be empty");
+                throw new Error() ;
+            }
+
+            if(lastName.length == 0)
+            {
+                setError("Last name can not be empty");
+                throw new Error() ;
+            }
+
+            if(email.length == 0)
+            {
+                setError("Email can not be empty");
+                throw new Error() ;
+            }
+
+            if(homeAddress.length == 0)
+            {
+                setError("Home address can not be empty");
+                throw new Error() ;
+            }
+
+            if(phoneNumber.length !== 11)
+            {
+                setError("Phone number is not correct");
+                throw new Error() ;
+            }
+
+            if(passportNumber.length == 0)
+            {
+                setError("Email can not be empty");
+                throw new Error() ;
+            }
+
+            
+
+            
+
             setLoading(true);
             const id = user._id;
             const username = user.username;
@@ -61,7 +122,7 @@ const EditProfile = () => {
                 config 
                 );
                 setLoading(false);
-                setMessage("Profile is updated successfully")
+                setMessage("Profile is updated successfully");
                 if(data == null)
                     setError("email already exits ")
                     
@@ -75,13 +136,16 @@ const EditProfile = () => {
                     passportNumber: passportNumber,
                     password: password,
                     reservedFlights : reservedFlights, Token: user.Token}
-
+                    
                 localStorage.setItem("userInfo", JSON.stringify(updatedUser));
+               
         }
         catch(error)
         {
-            setLoading(false);
+            if(error == null)
             setError(error.message);
+            setLoading(false);
+           
         }
 
 
@@ -91,61 +155,38 @@ const EditProfile = () => {
 
     return (
         <div>
-             <Header />
-        <MainScreen title = "EDIT PROFILE">
-            <div className = "loginContainer">
-            {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-            {message && <ErrorMessage variant="info">{message}</ErrorMessage>}
-            {loading && <Loading />}    
-                <Form onSubmit = {submitHandler}>
-                    
-                    <Form.Label>First Name:</Form.Label>
-                     <Form.Control
-                         type ="fname"
-                         value = {firstName}
-                         placeHolder = "Enter First Name"
-                         onChange= {(e) => {setFirstName(e.target.value);setMessage(null)}}  />
-                         <Form.Label>Last Name:</Form.Label>
-                     <Form.Control
-                         type ="lname"
-                         value = {lastName}
-                         placeHolder = "Enter Last Name"
-                         onChange ={(e) => {setLastName(e.target.value); setMessage(null)}}/>
-                      <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control
-                      type="email"
-                      value = {email}
-                      placeholder="Enter email"
-                      onChange = {(e) => {setEmail(e.target.value); setMessage(null)}}/>
-                       </Form.Group>
-                    <Form.Label>Home Address:</Form.Label>
-                     <Form.Control
-                         type ="homeAddress"
-                         value = {homeAddress}
-                         placeHolder = "Enter Home Address"
-                         onChange = {(e) => {setHomeAddress(e.target.value); setMessage(null)}}/>
-                    <Form.Label>Phone Number:</Form.Label>
-                     <Form.Control
-                         type ="phoneNumber"
-                         value = {phoneNumber}
-                         placeHolder = "01xxxxxxxxx"
-                         maxLength = {11}
-                         minLength = {11}
-                         onChange = {(e) => {setPhoneNumber(e.target.value);setMessage(null)}}/>
-                    <Form.Label>Passport Number:</Form.Label>
-                     <Form.Control
-                         type ="paasportNumber"
-                         value = {passportNumber}
-                         placeHolder = "Enter Passport Number"
-                         onChange = {(e) => {setPassportNumber(e.target.value);setMessage(null)}}/> 
-          <Button variant="primary" type="submit">
-            Submiit
-          </Button>
-        </Form> 
-            </div>
-        </MainScreen>
-</div>
+            <Header/>   
+            
+            <Grid>
+            <br/><br/>
+            {loading && <Loading />}  
+            <Paper elevation={10} style={{padding :20,height:'65vh',width:500, margin:"20px auto"}}>
+                <Grid align='center'>
+                    <br/>
+                     <Avatar style={{backgroundColor:'rgb(160, 208, 226)'}}><ModeEdit/></Avatar>
+                    <h2>Edit Your Profile Info</h2>
+                </Grid>
+                 {error && <Alert style={{backgroundColor: 'rgb(244, 67, 54,0.3)'}} severity="error">{error}</Alert>}  
+                 {message && <Alert style={{backgroundColor: 'rgb(206, 237, 214,0.5)'}} severity="success">{message}</Alert>}
+                <br/>
+                <TextField label='First Name' value = {firstName} required onChange= {(e)=>{setFirstName(e.target.value);setError(null);setMessage(null)}} fullWidth  />
+                <br/><br/>
+                <TextField label='Last Name' value = {lastName} required onChange= {(e)=>{setLastName(e.target.value);setError(null);setMessage(null)}} fullWidth/>
+                <br/><br/>
+                <TextField label='Email'  type ='email' value = {email} required onChange= {(e)=>{setEmail(e.target.value);setError(null);setMessage(null)}} fullWidth/>
+                <br/><br/>
+                <TextField label='HomeAddress'  value = {homeAddress} required onChange= {(e)=>{setHomeAddress(e.target.value);setError(null);setMessage(null)}} fullWidth/>
+                <br/><br/>
+                <TextField label='Phone Number' value = {phoneNumber} required onChange= {(e)=>{setPhoneNumber(e.target.value);setError(null);setMessage(null)}} fullWidth/>
+                <br/><br/>
+                <TextField label='Passport Number'  value = {passportNumber} required onChange= {(e)=>{setPassportNumber(e.target.value);setError(null);setMessage(null)}}fullWidth />
+                <br/><br/>
+                <Button type='submit' variant="contained" style={{margin:'8px 0' , backgroundColor:'rgb(160, 208, 226)'}} fullWidth onClick={submitHandler}>Submit</Button>
+                
+            </Paper>
+         </Grid>
+    </div>
+        
     )
 }
 

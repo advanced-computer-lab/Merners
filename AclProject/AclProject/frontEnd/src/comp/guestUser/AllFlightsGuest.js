@@ -2,16 +2,11 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
-import Header from'./Header'
+import HeaderGuest from'./HeaderGuest'
 import {useParams} from 'react-router-dom';
-import MainScreenAdmin from './mainScreenAdmin';
 
-function AllFlightsUser() { 
+function AllFlightsGuest() { 
     const [flight, setflight] = useState([]);
-    const id=useParams();
-    
-    const params = { "params": id };
-     console.log(params);   
 
 
   useEffect(() => {
@@ -25,7 +20,7 @@ function AllFlightsUser() {
   });
     return (
         <div>
-           <Header />
+           <HeaderGuest />
            <br/>
            <span style ={{fontWeight: '900' , fontSize: 70 , color: 'white', fontFamily: 'ui-sans-serif'}}>All Flights</span>
            <br/>
@@ -76,7 +71,7 @@ function AllFlightsUser() {
               <td>{data.economySeatsLuggage}</td> 
               <td>{data.economySeatsPrice}</td>
               <td>
-              <Link to={`/showDetails/${data._id}`+"/"+params.params.user_id} >Show details</Link>
+              <Link to={`/showDetailsGuest/${data._id}`} >Show details</Link>
               </td>
                 
        </tr>
@@ -94,4 +89,4 @@ function AllFlightsUser() {
     )
 }
 
-export default AllFlightsUser
+export default AllFlightsGuest

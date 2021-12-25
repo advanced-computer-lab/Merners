@@ -5,33 +5,29 @@ import { useState, useEffect } from 'react'
 import {Link} from 'react-router-dom'
 import Header from'./Header'
 import {useParams} from 'react-router-dom'
-import SearchIcon from '@mui/icons-material/Search';
-import Alert from '@mui/material/Alert';
 import {Button} from '@mui/material';
 import {Grid, GridColumn} from 'semantic-ui-react';
 import { Card , Container , Row , Col} from "react-bootstrap";
 import {SiLotpolishairlines} from 'react-icons/si';
+import SearchIcon from '@mui/icons-material/Search';
 
 function Usersearchflights() {
-
+    const id=useParams();
+    const params = {"params" : id}
+    const flightparams = { "params": { "_id": id.flight_id} };
+    const reservationparams = { "_id": id.reservation_id} ;
+  
+    const [flight, setflight] = useState([]);
     const [flightv, setflightv] = useState([]);
     const [flightq, setflightq] = useState([]);
     var res = [];
-    const id=useParams();
-    const [error,setError] =useState("");
-    
-    const params = { "params": id };
-
-    if(error !== null)
-    {
-        setTimeout(() => {
-            setError(null);
-          }, 3000);
-    }
 
     const HandleSubmit = (e) => {
-        
+
         const qu=flightq;
+        qu["from"] = flight.from;
+        qu["to"] = flight.to;
+
         for (const item in qu) {
            if(qu[item]===""){
               delete qu[item];
@@ -75,8 +71,6 @@ function Usersearchflights() {
             }
 
           const data = result.data;
-          if(data.length === 0)
-            setError("No result found")
           setflightv(data);
         })
         .catch((err)=>{console.log(err)});
@@ -87,20 +81,70 @@ function Usersearchflights() {
        
     }
         useEffect(() => {
-        },[flightq]);
+            // console.log(flight);
+            axios.get('http://localhost:8000/flights/flight', flightparams).then(resp => { setflight(resp.data);
+            
+        }).catch((err) => { console.log(err) });
+            
+        // setflightq({ ...flightq, from: flight.from});
+        // // console.log({ ...flightq, from: flight.from});
+        // setflightq({ ...flightq, to: flight.to}); 
+        // console.log(flightq)
+        },[]);
       
-        
+        useEffect(()=>{
+            const qu=flightq;
+            qu["from"] = flight.from;
+            qu["to"] = flight.to;
+
+            axios.get("http://localhost:8000/flights/get")
+            .then((result) => {
+                for (var key in qu) {
+                    if (key === "from" || key === "to" || key === "airport") {
+                        for(var i in result.data ){
+                            for (var key2 in result.data[i]) {
+                                if (key2 === key && qu[key] === result.data[i][key2] ) {
+                                    res.push(result.data[i]);
+                                }
+                            }
+                        }
+                    }
+                    else if (key === "departureDate" || key === "arrivalDate") {
+                        for(var i in result.data ){
+                            for (var key2 in result.data[i]) {
+                                if (key2 === key && qu[key] === (""+result.data[i][key2]).substring(0,10) ) {
+                                    res.push(result.data[i]);
+                                }
+                            }
+                        }
+                    }
+                    else if (key === "firstSeatsAvailable" || key === "economySeatsAvailable" || key === "businessSeatsAvailable" || key === "firstSeatsPrice" || key === "economySeatsPrice" || key === "businessSeatsPrice") {
+                        for(var i in result.data ){
+                            for (var key2 in result.data[i]) {
+                                if (key2 === key && qu[key] <= result.data[i][key2] ) {
+                                    res.push(result.data[i]);
+                                }
+                            }
+                        }
+                    }
+                    result.data = res;
+                    res = [];
+                }
+    
+              const data = result.data;
+              setflightv(data);
+            })
+            .catch((err)=>{console.log(err)});
+
+        },[flight]);
             
 
 
     return (
         <div>
-
-           <Header />
+             <Header />
            <span style ={{fontWeight: '900' , fontSize: 70 , color: 'white', fontFamily: 'ui-sans-serif'}}>Search</span>
-           
-           {error && <Alert style={{backgroundColor: 'rgb(244, 67, 54,0.3)'}} severity="error"><strong> {error}</strong> </Alert>}
-        <Container>
+           <Container>
                         <Row>
                             <Col/>
                             <Col>
@@ -130,12 +174,12 @@ function Usersearchflights() {
 
                             <Grid.Row>
                               <Grid.Column>
-                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>FROM </h3> <input style = {{fontSize : 18 , fontWeight: 500 , width: '160px'}} type="text" id="from" name="from" value={flightq.from} onChange={(e) => {  setflightq({ ...flightq, from: e.target.value }) }} />
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>DEPARTURE DATE </h3>  <input style = {{fontSize : 18 , fontWeight: 500 , width: '160px'}} type="date" id="DepDt" name="DepDt" value={flightq.departureDate} onChange={(e) => { setflightq({ ...flightq, departureDate: e.target.value }) }} />
                               </Grid.Column>
                               <Grid.Column/>
                               <Grid.Column/>
                               <Grid.Column>
-                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>TO </h3> <input style = {{fontSize : 18 , fontWeight: 500 , width: '160px'}} type="text" id="to" name="to" value={flightq.to} onChange={(e) => { setflightq({ ...flightq, to: e.target.value }) }} />
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>ARRIVAL DATE </h3>  <input style = {{fontSize : 18 , fontWeight: 500 , width: '160px'}} type="date" id="ArvDt" name="ArvDt" value={flightq.arrivalDate} onChange={(e) => { setflightq({ ...flightq, arrivalDate: e.target.value }) }} />
                               </Grid.Column>
                               <Grid.Column/>
                               <Grid.Column/>
@@ -202,21 +246,21 @@ function Usersearchflights() {
                               <Grid.Row/>
 
                               <Grid.Row>
+                              <Grid.Column/>
+                              <Grid.Column/>
+                              <Grid.Column/>
+                              <Grid.Column/>
+                              <Grid.Column/>
+                              <Grid.Column/>
                               <Grid.Column>
-                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>DEPARTURE DATE </h3>  <input style = {{fontSize : 18 , fontWeight: 500 , width: '160px'}} type="date" id="DepDt" name="DepDt" value={flightq.departureDate} onChange={(e) => { setflightq({ ...flightq, departureDate: e.target.value }) }} />
                               </Grid.Column>
                               <GridColumn />
                               <GridColumn />
                               <Button variant="contained" onClick={(e) => {HandleSubmit(e)}} style={{backgroundColor:'#7cc0d8' , width: 150 , height: 50}}startIcon={<SearchIcon style={{fill: "white"}} />}>Search</Button>
                               <GridColumn />
                               <GridColumn />
-                              <Grid.Column>
-                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>ARRIVAL DATE </h3>  <input style = {{fontSize : 18 , fontWeight: 500 , width: '160px'}} type="date" id="ArvDt" name="ArvDt" value={flightq.arrivalDate} onChange={(e) => { setflightq({ ...flightq, arrivalDate: e.target.value }) }} />
-                              </Grid.Column>
                             </Grid.Row>
 
-                            
-                        
 
                              </Grid>
                           
@@ -279,7 +323,7 @@ function Usersearchflights() {
               <td>{data.economySeatsLuggage}</td> 
               <td>{data.economySeatsPrice}</td>
               <td>
-                <Link to={`/showDetails/${data._id}`+"/"+params.params.user_id} ><span style= {{fontSize: 14, fontWeight: "bold"}}>Show details</span></Link> {/*| <Link to={`/reserve/${data._id}`} >Reserve</Link>*/}
+              <Link to={"/showDetailsEdit/"+params.params.flight_id+"/"+params.params.user_id+"/"+params.params.reservation_id+"/"+data._id} ><span style= {{fontSize: 14, fontWeight: "bold"}}>Show details</span></Link> {/*| <Link to={`/reserve/${data._id}`} >Reserve</Link>*/}
                 
               </td> <td/>
               <td/>
@@ -293,6 +337,7 @@ function Usersearchflights() {
 
   
        </div> 
+
         </div>
     )
 }

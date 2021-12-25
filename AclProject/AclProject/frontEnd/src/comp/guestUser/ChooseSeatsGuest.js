@@ -2,29 +2,23 @@ import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import {useParams} from 'react-router-dom'
-import Header from'./Header'
 import { Button } from '@material-ui/core';
 import Alert from '@mui/material/Alert';
+import HeaderGuest from './HeaderGuest'
 
-function ChooseSeats2() {
+function ChooseSeatsGuest() {
     const id=useParams();
     const params = { "params": id };
+   
     const [flight, setflight] = useState({ flightNumber: "", departureTime: "", arrivalTime: "", departureDate: "", arrivalDate: "",terminal:"", firstSeatsAvailable: "", firstSeatsLuggage: "", firstSeatsPrice: "", economySeatsAvailable: "", economySeatsLuggage: "", economySeatsPrice: "", businessSeatsAvailable: "", businessSeatsLuggage: "", businessSeatsPrice: "", airport: "", from: "", to: "", firstSeatsAvailablePositions: [], economySeatsAvailablePositions: [], businessSeatsAvailablePositions: []});
     const [sn, setsn] = useState(0);
     const [sa, setsa] = useState([]);
     const [numberOfGreenSeats, setNumberOfGreenSeats] = useState(0);
     const [greenSeats, setGreenSeats] = useState([]);
-    const iddd = {"params":{"_id":params.params._id}}; 
+    const iddd = {"params":{"_id":params.params._id}};
     const [color, setmo7sen] = useState([]);
-    const colors = [];
     const [error,setError] = useState(null);
-
-    if(error !== null)
-    {
-        setTimeout(() => {
-            setError(null);
-          }, 2000);
-    }
+    const colors = [];  
 
     var dividedBy4 = [];
     for(let i=0; i<Math.floor(sa.length/4); i++){
@@ -43,59 +37,57 @@ function ChooseSeats2() {
     if(sa.length == dividedBy4.length*4 + 3){
         remaining3.push(true);
     }
+    if(error !== null)
+    {
+        setTimeout(() => {
+            setError(null);
+          }, 2000);
+    }
 
 
     const HandleSubmit = (e) => {
         e.preventDefault();
         setGreenSeats(greenSeats);
         setNumberOfGreenSeats(greenSeats.length);
-        var adultsd=params.params.adnod;
-        var childrend=params.params.chnod;
-        var tnopd=params.params.tnopd;
-        var adultsr=params.params.adnor;
-        var childrenr=params.params.chnor;
-        var tnopr=params.params.tnopr;
-        // alert(greenSeats2);
-    
-        /////
-        if(tnopr==greenSeats.length){
-           // window.location.href = "http://localhost:3000/DepSumm/"+params.params._id+"/"+params.params.class+"/"+greenSeats+"/"+greenSeats.length+"/"+adultsd+"/"+childrend+"/"+tnopd+"/"+params.params.user_id;
-           localStorage.setItem("reFlight", JSON.stringify(flight)); 
-           window.location.href = "http://localhost:3000/FinalSumm/"+params.params._idd+"/"+params.params.classd+"/"+params.params.seats+"/"+params.params.totalseats+"/"+adultsd+"/"+childrend+"/"+tnopd+"/"+params.params._id+"/"+params.params.class+"/"+greenSeats+"/"+greenSeats.length+"/"+adultsr+"/"+childrenr+"/"+tnopr+"/"+params.params.user_id;
-       
-        }
-        else{
-            setError("Number of seats chosen must be equal to selected");
-        }
-
-        /////
-        //window.location.href = "http://localhost:3000/FinalSumm/"+params.params._idd+"/"+params.params.classd+"/"+params.params.seats+"/"+params.params.totalseats+"/"+params.params._id+"/"+params.params.class+"/"+greenSeats+"/"+greenSeats.length+"/"+params.params.user_id;
+        var adultsd=params.params.adno;
+        var childrend=params.params.chno;
+        var tnopd=params.params.tnop;
+       if(tnopd==greenSeats.length){
+        localStorage.setItem("depFlight", JSON.stringify(flight)); 
+        window.location.href = "http://localhost:3000/DepSummGuest/"+params.params._id+"/"+params.params.class+"/"+greenSeats+"/"+greenSeats.length+"/"+adultsd+"/"+childrend+"/"+tnopd;
+    }
+    else{
+        setError("Number of seats chosen must be equal to selected");
     }
 
+}
+
     useEffect(() => {
-        //console.log(params.params._idr);
-        axios.get('http://localhost:8000/flights/flight', iddd).then(resp => { setflight(resp.data) }).catch((err) => { console.log(err) });
       
+        axios.get('http://localhost:8000/flights/flight', iddd).then(resp => { setflight(resp.data) }).catch((err) => { console.log(err) });
+      // console.log(flight);
     },[]);
 
     useEffect(() => {
       
       
     if(params.params.class === "First class"){
+      //  alert(flight.firstSeatsAvailablePositions.length)
         setsn(flight.firstSeatsAvailable);
         setsa(flight.firstSeatsAvailablePositions);
       }
        else if(params.params.class === "Economy class"){
+       // alert(flight.economySeatsAvailablePositions.length)
         setsn(flight.economySeatsAvailable);
         setsa(flight.economySeatsAvailablePositions);
        }   
        else if(params.params.class === "Business class"){
+       // alert(flight.businessSeatsAvailablePositions.length)
         setsn(flight.businessSeatsAvailable);
         setsa(flight.businessSeatsAvailablePositions);
     }
     // setsa([true, true, false, true, false, false, true, true, true, true, false, true, false, false, true, true, true, true, false, true, false, false, true, true, true, true, false, true, false, false, true, true, true, true, false, true, false, false, true, true, true, true, false, true, false, false, true, true, false, false,false])
-    console.log(params.params._id);
-    console.log(flight);
+
     
     },[flight]);
 
@@ -114,28 +106,25 @@ useEffect(()=>{
     
     return (
         <div>
-            <Header />
+            <HeaderGuest />
             <br/>
             <span style ={{fontWeight: '900' , fontSize: 70 , color: 'white', fontFamily: 'ui-sans-serif'}}>Choose Your Seats</span>
             <br/><br/>{error && <Alert style={{backgroundColor: 'rgb(244, 67, 54,0.3)'}} severity="error"><strong> {error}</strong></Alert>}
 
-            <span style ={{fontWeight: '500' , fontSize: 30 , color: 'white', fontFamily: 'ui-sans-serif'}}>Please choose {params.params.tnopr} seat(s)</span>
+            <span style ={{fontWeight: '500' , fontSize: 30 , color: 'white', fontFamily: 'ui-sans-serif'}}>Please choose {params.params.tnop} seat(s)</span>
             <form onSubmit={(e) => {
                 HandleSubmit(e); 
 
             }}>
 
+                <table className="table" style={{marginLeft:"700px" ,width:"2000px"}}>
 
-                <table className="table" style={{marginLeft:"700px"}}>
-                        <tr>
                             
                             <th>c1</th> 
                             <th>c2</th> 
                             <th></th> 
                             <th>c3</th> 
                             <th>c4</th> 
-                           
-                        </tr>
                    
           <tbody>
           {dividedBy4.map((number) => 
@@ -346,13 +335,12 @@ useEffect(()=>{
           
               </tbody>
         </table>
+        <Button type='submit' variant="contained" style={{margin:'6px 0' , backgroundColor:'rgb(160, 208, 226)'}}>Confirm</Button>    
 
-        <Button type='submit' variant="contained" style={{margin:'6px 0' , backgroundColor:'rgb(160, 208, 226)'}}>Confirm</Button> 
 
 </form>
 </div>   
-
     )
 }
 
-export default ChooseSeats2;
+export default ChooseSeatsGuest;

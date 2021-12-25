@@ -11,7 +11,9 @@ reservationRouter.post('/getReservation',reservationController.userReservation);
 reservationRouter.get('/allres',reservationController.reservations);
 reservationRouter.post('/cancel',reservationController.deleteReservation);
 reservationRouter.get('/reservation',reservationController.findReservation);
-
+reservationRouter.post('/Reservation',reservationController.findreservation);
+reservationRouter.post('/update',reservationController.updatereservation);
+reservationRouter.post('/update2',reservationController.updatereservation2);
 
 
 module.exports=reservationRouter;

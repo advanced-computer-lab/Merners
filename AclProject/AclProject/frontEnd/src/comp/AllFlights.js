@@ -2,9 +2,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
-import Navbar from'./Navbar'
+import NavbarAdmin from'./NavbarAdmin'
 import {useParams} from 'react-router-dom';
-import MainScreenAdmin from './mainScreenAdmin';
 
 function AllFlights() { 
     const [flight, setflight] = useState([]);
@@ -24,10 +23,10 @@ function AllFlights() {
   });
     return (
         <div>
-           <Navbar />
-           <MainScreenAdmin title = "All Flights">
-           <span id="textSpan" style={ { fontWeight: 'bold' } }>
-           <table className="table">
+           <NavbarAdmin />
+           <span style ={{fontWeight: '900' , fontSize: 70 , color: 'white', fontFamily: 'ui-sans-serif'}}>All Flights </span>
+           <span id="textSpan">
+           <table className="table" style= {{backgroundColor:'rgb(255,255,255 ,0.7)'}}>
                         <tr>
                             <th>Flight number</th>  
                             <th>From</th> 
@@ -72,7 +71,7 @@ function AllFlights() {
               <td>{data.economySeatsLuggage}</td> 
               <td>{data.economySeatsPrice}</td>
               <td>
-                <Link to={`/update/${data._id}`+"/"+params.params.user_id}>Update</Link> <Link to={`/delete/${data._id}`+"/"+params.params.user_id} >Delete</Link>
+                <Link to={`/update/${data._id}`+"/"+params.params.user_id} style= {{color: 'navy' , fontWeight: 700, fontSize: 15}}>Update</Link> <Link style= {{color: 'rgb(200,0,0)' , fontWeight: 700, fontSize: 15}} to={`/delete/${data._id}`+"/"+params.params.user_id} >Delete</Link>
               </td>
                 
        </tr>
@@ -83,7 +82,6 @@ function AllFlights() {
         </table>
         
         </span>
-        </MainScreenAdmin>
        </div>
   
 

@@ -1,9 +1,9 @@
 import React from 'react';
-import Services from './Services';
-import Header from './Header';
+import Services from '../Services';
+import Header from './HeaderGuest';
 import { Container, Row , Col} from 'react-bootstrap';
 
-const HomePageUser = () => {
+const GuestHomePage = () => {
     return (
         <div >
              <Header />
@@ -19,6 +19,7 @@ const HomePageUser = () => {
                         <span style ={{fontSize: 25 , color: 'white', fontFamily: 'ui-sans-serif' }}>
                             With Cheap Flights, you can easily book any ticket you need to travel safely thanks to our detailed system of searching and booking airline tickets.
                         </span>
+
                     </Container>
                 </Col>
                 <Col>
@@ -32,4 +33,4 @@ const HomePageUser = () => {
     )
 }
 
-export default HomePageUser
+export default GuestHomePage

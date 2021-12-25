@@ -2,15 +2,14 @@ import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import {useParams} from 'react-router-dom'
-import Header from'./Header'
-import StripeCheckout from 'react-stripe-checkout';
+import HeaderGuest from'./HeaderGuest'
 import { Card , Container , Row , Col} from "react-bootstrap";
 import {Grid, GridColumn} from 'semantic-ui-react';
 import {Button,Paper} from '@material-ui/core';
 import {SiLotpolishairlines} from 'react-icons/si';
 import Alert from '@mui/material/Alert';
 
-function FinalSumm() {
+function FinalSummGuest() {
     const id=useParams();
   
     const params = { "params": id };
@@ -66,155 +65,78 @@ function FinalSumm() {
     const [error,setError] = useState(null);
     const [message,setMessage] = useState(null);
 
-    
-    if(message !== null)
+   
+    const  Login = () => 
     {
-        setTimeout(() => {
-            setMessage(null);
-          }, 3000);
-    }
+             
+        const data = params.params._id+"/"+params.params.class+"/"+params.params.seats+"/"+params.params.totalseats+"/"+params.params.adnod+"/"+params.params.chnod+"/"+params.params.tnopd+"/"+params.params._idr+"/"+params.params.classr+"/"+params.params.seatsr+"/"+params.params.totalseatsr+"/"+params.params.adnor+"/"+params.params.chnor+"/"+params.params.tnopr+"/";
+        localStorage.setItem("URL", JSON.stringify(data));
 
-
-    if(error !== null)
-    {
-        setTimeout(() => {
-            setError(null);
-          }, 3000);
-    }
-
-    const makePayment = (token,e) =>{
-        
-        console.log(token);
-        
-        const totalPrice = tp + tpr ;
-
-        const body = {
-            token:token , to:flight.to , price: totalPrice
-        }
-        const headers = {
-            "Conetnt-Type": "application/json"
-        }
-        const paymentIntent = axios.post('http://localhost:8000/payment',body).then(response =>{
-            console.log("RESPONSE ", response);
-            const {status} = response;
-            console.log("STATUS", status)
-            
-            if(status == 200)
-            {
-                setMessage("Your Flight is Booked Successfuly")
-                setPaid(true);
-            }
-            else
-            {
-                setError("Unfortunately, The card got declined, Please try another card!!!");
-
-            }
-        })
-        .catch(error => console.log(error.message))
-    }
-
-    const  cancel = () => {
-        if(window.confirm("Are you sure that you want to cancel your reservation? ")){
-            alert("Reservation is canceled")
-            localStorage.removeItem('depFlight');
-            localStorage.removeItem('reFlight');
-            if(localStorage.getItem('URL')!== null)
-               localStorage.removeItem('URL');
-            window.location.href = "http://localhost:3000/homePageUser/"+params.params.user_id;  
-        }  
-        
-        
-      
-    }
-
-    const  HandleSubmit = (e) => {
-        e.preventDefault();
-       
-        axios.post('http://localhost:8000/reservations/create', depRes).then(() => console.log("posted sucsessfully")).catch((err) => {console.log(err)});
-        axios.post('http://localhost:8000/reservations/create', retRes).then(() => console.log("posted sucsessfully")).catch((err) => {console.log(err)});
-        axios.post('http://localhost:8000/flights/redSeats', axiosparams).then(() => console.log("posted sucsessfully")).catch((err) => {console.log(err)});
-        axios.post('http://localhost:8000/flights/redSeats', axiosparamsreturn).then(() => console.log("posted sucsessfully")).catch((err) => {console.log(err)});
-        alert("Reservation made succsessfully, An Email will be sent Shortly");
-       
-        localStorage.removeItem('depFlight');
-        localStorage.removeItem('reFlight');
-
-        const mailContent = "Your Flight To " + depRes.from + " Has Been Reserved!";
-        const user = JSON.parse(localStorage.getItem('userInfo'));
-
-        const mailReq = { mailContent : mailContent , email: user.email , subject: "confirming your flight"}
-        
-        // axios.post("http://localhost:8000/sendMail", mailReq);
-        
-        if(localStorage.getItem('URL')!== null)
-               localStorage.removeItem('URL');
-
-        window.location.href = "http://localhost:3000/AllUserFlights/"+user._id;
-      
+        window.location.href = "http://localhost:3000";  
     }
 
     useEffect(() => {
-        console.log(params);
-   
-        axios.get('http://localhost:8000/flights/flight', idddr).then(resp => { setflightr(resp.data) }).catch((err) => { console.log(err) });
-        axios.get('http://localhost:8000/flights/flight', iddd).then(resp => { setflight(resp.data) }).catch((err) => { console.log(err) });
-       
-    },[]);
-    useEffect(()=>{
-      var tpr=0;
-      var tpd=0;
-      
-    if(params.params.classr === "First class"){
-        setbar(flightr.firstSeatsLuggage);
-        tpr=params.params.adnor*flightr.firstSeatsPrice+params.params.chnor*0.7*flightr.firstSeatsPrice;
-        settpr(tpr);
-       
-      }
-       else if(params.params.classr === "Economy class"){
-        setbar(flightr.economySeatsLuggage);
-        tpr=params.params.adnor*flightr.economySeatsPrice+params.params.chnor*0.7*flightr.economySeatsPrice;
-        settpr(tpr);
-       }   
-       else if(params.params.classr === "Business class"){
-        setbar(flightr.businessSeatsLuggage);
-        tpr=params.params.adnor*flightr.businessSeatsPrice+params.params.chnor*0.7*flightr.businessSeatsPrice;
-        settpr(tpr);
+      console.log(params);
+ 
+      axios.get('http://localhost:8000/flights/flight', idddr).then(resp => { setflightr(resp.data) }).catch((err) => { console.log(err) });
+      axios.get('http://localhost:8000/flights/flight', iddd).then(resp => { setflight(resp.data) }).catch((err) => { console.log(err) });
+     
+  },[]);
+  useEffect(()=>{
+    var tpr=0;
+    var tpd=0;
+    
+  if(params.params.classr === "First class"){
+      setbar(flightr.firstSeatsLuggage);
+      tpr=params.params.adnor*flightr.firstSeatsPrice+params.params.chnor*0.7*flightr.firstSeatsPrice;
+      settpr(tpr);
+     
     }
+     else if(params.params.classr === "Economy class"){
+      setbar(flightr.economySeatsLuggage);
+      tpr=params.params.adnor*flightr.economySeatsPrice+params.params.chnor*0.7*flightr.economySeatsPrice;
+      settpr(tpr);
+     }   
+     else if(params.params.classr === "Business class"){
+      setbar(flightr.businessSeatsLuggage);
+      tpr=params.params.adnor*flightr.businessSeatsPrice+params.params.chnor*0.7*flightr.businessSeatsPrice;
+      settpr(tpr);
+  }
 
 
 
 
 
 
-     if(params.params.class === "First class"){
-        setba(flight.firstSeatsLuggage);
-        tpd=params.params.adnod*flight.firstSeatsPrice+params.params.chnod*0.7*flight.firstSeatsPrice;
-        settp(tpd);
-      }
-       else if(params.params.class === "Economy class"){
-        setba(flight.economySeatsLuggage);
-        tpd=params.params.adnod*flight.economySeatsPrice+params.params.chnod*0.7*flight.economySeatsPrice;
-        settp(tpd);
-       }   
-       else if(params.params.class === "Business class"){
-        setba(flight.businessSeatsLuggage);
-        tpd=params.params.adnod*flight.businessSeatsPrice+params.params.chnod*0.7*flight.businessSeatsPrice;
-        settp(tpd);
+   if(params.params.class === "First class"){
+      setba(flight.firstSeatsLuggage);
+      tpd=params.params.adnod*flight.firstSeatsPrice+params.params.chnod*0.7*flight.firstSeatsPrice;
+      settp(tpd);
     }
-    var x = { flight: params.params._idr, user: params.params.user_id, adultsNumber: params.params.adnor, childrenNumber: params.params.chnor, totalPrice: tpr, classChoosen: params.params.classr, seatsChoosen:params.params.seatsr}
-    var y = { flight: params.params._id, user: params.params.user_id, adultsNumber: params.params.adnod, childrenNumber: params.params.chnod, totalPrice: tpd, classChoosen: params.params.class, seatsChoosen:params.params.seats}
-    setReservationDep(y)
-    setReservationRet(x)
+     else if(params.params.class === "Economy class"){
+      setba(flight.economySeatsLuggage);
+      tpd=params.params.adnod*flight.economySeatsPrice+params.params.chnod*0.7*flight.economySeatsPrice;
+      settp(tpd);
+     }   
+     else if(params.params.class === "Business class"){
+      setba(flight.businessSeatsLuggage);
+      tpd=params.params.adnod*flight.businessSeatsPrice+params.params.chnod*0.7*flight.businessSeatsPrice;
+      settp(tpd);
+  }
+  var x = { flight: params.params._idr, user: params.params.user_id, adultsNumber: params.params.adnor, childrenNumber: params.params.chnor, totalPrice: tpr, classChoosen: params.params.classr, seatsChoosen:params.params.seatsr}
+  var y = { flight: params.params._id, user: params.params.user_id, adultsNumber: params.params.adnod, childrenNumber: params.params.chnod, totalPrice: tpd, classChoosen: params.params.class, seatsChoosen:params.params.seats}
+  setReservationDep(y)
+  setReservationRet(x)
 
 
-  },[flight,flightr]);
+},[flight,flightr]);
 
     return (
         <div>
-             <Header />
+             <HeaderGuest />
              <br/>
              {message && <Alert style={{backgroundColor: 'rgb(206, 237, 214,0.3)'}} severity="success"><strong> {message}</strong></Alert>}
-             {error && <Alert style={{backgroundColor: 'rgb(244, 67, 54,0.3)'}} severity="error"><strong> {error}</strong></Alert>}
+
          <span style ={{fontWeight: '900' , fontSize: 70 , color: 'white', fontFamily: 'ui-sans-serif'}}>Flight Summary</span>
 
              <Grid celled columns={3}>
@@ -332,12 +254,12 @@ function FinalSumm() {
                                 <GridColumn />
                                 <GridColumn />
                                 <Grid.Column>
-                                <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>ADULTS</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{params.params.adnod} </span>
+                                <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>ADULTS</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{params.params.adnor}</span>
                                 </Grid.Column>   
                                 <GridColumn />
                                 <GridColumn />
-                                <Grid.Column>
-                                <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>CHILDREN</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{params.params.chnod}</span>
+                                <Grid.Column> 
+                                <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>CHILDREN</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{params.params.chnor} </span>
                                 </Grid.Column>
                               </Grid.Row>
                           
@@ -465,12 +387,12 @@ function FinalSumm() {
                                 <GridColumn />
                                 <GridColumn />
                                 <Grid.Column>
-                                <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>ADULTS</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{params.params.adnor}</span>
+                                <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>ADULTS</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{params.params.adnod}</span>
                                 </Grid.Column>   
                                 <GridColumn />
                                 <GridColumn />
                                 <Grid.Column>
-                                <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>CHILDREN</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{params.params.chnor}</span>
+                                <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>CHILDREN</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{params.params.chnod}</span>
                                 </Grid.Column>
                               </Grid.Row>
                           
@@ -486,16 +408,9 @@ function FinalSumm() {
                      </Grid.Column>
                  </Grid.Row>
              </Grid>
-            
-             {!paid && <StripeCheckout
-                 token = {makePayment} stripeKey = "pk_test_51K8nZ9FLxiaGszrrQWO11iQy3j9cuGK3xVXOSVMAwXRbHdyLQt10Vf2yAtxLTmoBGFIPixoICDL4pzaaUTa2VLCc00aBg7HGTg"  currency = 'eur'amount = {100 * price} name = "Pay for the Flight">
-               <Button type='submit'variant="contained" style={{margin:'8px 0' , backgroundColor:'rgb(160, 208, 226)'}}  >Your Total is {price} </Button>
-               </StripeCheckout> }
-             {paid &&  <Button type='submit' onClick={HandleSubmit} variant="contained" style={{margin:'8px 0' , backgroundColor:'rgb(160, 208, 226)'}}>Go to Home Page</Button>}
-             <br />
-             <Button type='submit' onClick={cancel} variant="contained" style={{margin:'8px 0' , backgroundColor:'rgb(220, 0, 0)'}}>cancel</Button>
+             <Button type='submit' onClick={Login} variant="contained" style={{margin:'8px 0' , backgroundColor:'rgb(220, 0, 0)'}}>You Have To Login First</Button>
 
         </div>
     )
 }
-export default FinalSumm
+export default FinalSummGuest

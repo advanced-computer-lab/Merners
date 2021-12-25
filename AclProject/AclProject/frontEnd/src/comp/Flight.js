@@ -1,13 +1,13 @@
 import React from 'react'
 
 import { Link } from 'react-router-dom'
-import Navbar from'./Navbar'
+import NavbarAdmin from'./NavbarAdmin'
 
 function Flight() {
   const _id = "61847a038d0bf591b23b32ee"
   return (
     <div>
-       <Navbar />
+       <NavbarAdmin />
       <ul>
         <li>flightNumber: </li>
         <li>departureTime:  </li>

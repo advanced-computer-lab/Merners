@@ -1,19 +1,24 @@
 import axios from 'axios'
-import { useState, useEffect ,React} from 'react'
+import React from 'react'
+import { useState, useEffect } from 'react'
 import {useParams} from 'react-router-dom'
 import Header from'./Header'
 import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 import {Grid, GridColumn} from 'semantic-ui-react';
 import {Button,Paper} from '@material-ui/core';
 import { Card , Container , Row , Col} from "react-bootstrap";
 import {SiLotpolishairlines} from 'react-icons/si';
 import Alert from '@mui/material/Alert';
 
-
-function ShowDetails() {
+function ShowDetailsChange() {
     const id=useParams();
     const options = [];
-    const params = { "params": id };
+
+    const flightparams = { "params": { "_id": id.flight_id} };
+    const userparams = { "params": { "_id": id.user_id} };
+    const reservationparams = { "_id": id.reservation_id} ;
+    const [reservation, setreservation] = useState({ _id: "", flight: "", user: "", adultsNumber:"", childrenNumber:"", totalPrice:"", classChoosen: "", seatsChoosen: []});
     const [flight, setflight] = useState({ flightNumber: "", departureTime: "", arrivalTime: "", departureDate: "", arrivalDate: "",terminal:"", firstSeatsAvailable: "", firstSeatsLuggage: "", firstSeatsPrice: "", economySeatsAvailable: "", economySeatsLuggage: "", economySeatsPrice: "", businessSeatsAvailable: "", businessSeatsLuggage: "", businessSeatsPrice: "", airport: "", from: "", to: "", firstSeatsAvailablePositions: [], economySeatsAvailablePositions: [], businessSeatsAvailablePositions: []});
     const [Class, setClass] = useState({ key: ""})
     var [children, setchild] = useState(0)
@@ -26,6 +31,7 @@ function ShowDetails() {
             setError(null);
           }, 2000);
     }
+
 
     const arrivalYear = Number(flight.arrivalDate.substring(0,4));
     const departureYear = Number(flight.departureDate.substring(0,4));
@@ -49,7 +55,9 @@ function ShowDetails() {
         options.push("Business class");
 
     const HandleSubmit = (e) => {
+         
         var tnop=Number(adults)+Number(children);
+        console.log(tnop)
         if(Class.key === ""){
             e.preventDefault();
             setError("Select a class.");
@@ -67,10 +75,10 @@ function ShowDetails() {
                     setError("number of seats needed can not be bigger than number of available seats");
                 }
                 else{
-           
-                    window.location.href = "http://localhost:3000/chooseSeats/"+params.params._id+"/"+Class.key+"/"+adults+"/"+children+"/"+tnop+"/"+params.params.user_id;
+
+                    window.location.href = "http://localhost:3000/changeSeats/"+flightparams.params._id+"/"+Class.key+"/"+adults+"/"+children+"/"+userparams.params._id+"/"+reservationparams._id;
                 }
-                
+
               }
                else if(Class.key === "Economy class"){
                 if(tnop>flight.economySeatsAvailable){
@@ -78,7 +86,7 @@ function ShowDetails() {
                 }
                 else{
            
-                    window.location.href = "http://localhost:3000/chooseSeats/"+params.params._id+"/"+Class.key+"/"+adults+"/"+children+"/"+tnop+"/"+params.params.user_id;
+                    window.location.href = "http://localhost:3000/changeSeats/"+flightparams.params._id+"/"+Class.key+"/"+adults+"/"+children+"/"+userparams.params._id+"/"+reservationparams._id;
                 }
             
                }   
@@ -88,25 +96,42 @@ function ShowDetails() {
                 }
                 else{
                     localStorage.setItem("depFlight", JSON.stringify(flight));
-                    window.location.href = "http://localhost:3000/chooseSeats/"+params.params._id+"/"+Class.key+"/"+adults+"/"+children+"/"+tnop+"/"+params.params.user_id;
+                    window.location.href = "http://localhost:3000/changeSeats/"+flightparams.params._id+"/"+Class.key+"/"+adults+"/"+children+"/"+userparams.params._id+"/"+reservationparams._id;
                 }
             }
             }
     }
 
     useEffect(() => {
-        console.log(params);
-        axios.get('http://localhost:8000/flights/flight', params).then(resp => { setflight(resp.data) 
-           
-    }).catch((err) => { console.log(err) });
-        // alert(flight.firstSeatsAvailablePositions.length)
+       // console.log(id);
+       axios.get('http://localhost:8000/flights/flight', flightparams).then(resp => { setflight(resp.data) }).catch((err) => { console.log(err) });
+        axios.post('http://localhost:8000/reservations/Reservation', reservationparams).then(resp => { setreservation(resp.data) ;console.log(resp.data)}).catch((err) => { console.log(err) });
+
     },[]);
 
+    useEffect(() => {
+        setadults(reservation.adultsNumber)
+        setchild(reservation.childrenNumber)
+        setClass({key: reservation.classChoosen})
+var tpas=parseInt(reservation.adultsNumber)+parseInt(reservation.childrenNumber);
+if(reservation.classChoosen === "First class"){
+  tpas=tpas+parseInt(flight.firstSeatsAvailable)
+  setflight({ ...flight, firstSeatsAvailable: tpas })
+  }
+   else if(reservation.classChoosen === "Economy class"){
+    tpas=tpas+parseInt(flight.economySeatsAvailable)
+  setflight({ ...flight, economySeatsAvailable: tpas })
+   }   
+   else if(reservation.classChoosen === "Business class"){
+    tpas=tpas+parseInt(flight.businessSeatsAvailable)
+  setflight({ ...flight, businessSeatsAvailable: tpas })
+}
+    },[reservation,flight.departureDate]);
+
     return (
-        
         <div>
             <Header /> <br/>
-             <span style ={{fontWeight: '900' , fontSize: 70 , color: 'white', fontFamily: 'ui-sans-serif'}}>Departure Flight Details</span>
+             <span style ={{fontWeight: '900' , fontSize: 70 , color: 'white', fontFamily: 'ui-sans-serif'}}>Flight Details</span>
              {error && <Alert style={{backgroundColor: 'rgb(244, 67, 54,0.3)'}} severity="error"><strong> {error}</strong></Alert>}
              <form onSubmit={(e) => {HandleSubmit(e);}}>
 
@@ -277,4 +302,4 @@ function ShowDetails() {
     )
 }
 
-export default ShowDetails;
+export default ShowDetailsChange;

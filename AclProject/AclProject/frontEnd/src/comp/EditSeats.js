@@ -2,29 +2,31 @@ import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import {useParams} from 'react-router-dom'
-import Header from'./Header'
+import Header from './Header'
 import { Button } from '@material-ui/core';
 import Alert from '@mui/material/Alert';
 
-function ChooseSeats2() {
+function ChangeSeats() {
     const id=useParams();
-    const params = { "params": id };
-    const [flight, setflight] = useState({ flightNumber: "", departureTime: "", arrivalTime: "", departureDate: "", arrivalDate: "",terminal:"", firstSeatsAvailable: "", firstSeatsLuggage: "", firstSeatsPrice: "", economySeatsAvailable: "", economySeatsLuggage: "", economySeatsPrice: "", businessSeatsAvailable: "", businessSeatsLuggage: "", businessSeatsPrice: "", airport: "", from: "", to: "", firstSeatsAvailablePositions: [], economySeatsAvailablePositions: [], businessSeatsAvailablePositions: []});
+    const params = { "params": id}
+    const flightparams = { "params": { "_id": id.desiredFlight_id} };
+    const userparams = { "params": { "_id": id.user_id} };
+    const reservationparams = { "_id": id.reservation_id} ;
+
+    const p = parseInt(id.adultsNumber) + parseInt(id.childrenNumber);
+   
+    const [seatsPreviouslyChoosen, setseatsPreviouslyChoosen] = useState([]);
     const [sn, setsn] = useState(0);
     const [sa, setsa] = useState([]);
     const [numberOfGreenSeats, setNumberOfGreenSeats] = useState(0);
     const [greenSeats, setGreenSeats] = useState([]);
-    const iddd = {"params":{"_id":params.params._id}}; 
     const [color, setmo7sen] = useState([]);
     const colors = [];
     const [error,setError] = useState(null);
 
-    if(error !== null)
-    {
-        setTimeout(() => {
-            setError(null);
-          }, 2000);
-    }
+
+    const [reservation, setreservation] = useState({ _id: "", flight: "", user: "", adultsNumber:"", childrenNumber:"", totalPrice:"", classChoosen: "", seatsChoosen: ["0"]});
+    const [flight, setflight] = useState({ flightNumber: "", departureTime: "", arrivalTime: "", departureDate: "", arrivalDate: "",terminal:"", firstSeatsAvailable: "", firstSeatsLuggage: "", firstSeatsPrice: "", economySeatsAvailable: "", economySeatsLuggage: "", economySeatsPrice: "", businessSeatsAvailable: "", businessSeatsLuggage: "", businessSeatsPrice: "", airport: "", from: "", to: "", firstSeatsAvailablePositions: [], economySeatsAvailablePositions: [], businessSeatsAvailablePositions: []});
 
     var dividedBy4 = [];
     for(let i=0; i<Math.floor(sa.length/4); i++){
@@ -49,68 +51,107 @@ function ChooseSeats2() {
         e.preventDefault();
         setGreenSeats(greenSeats);
         setNumberOfGreenSeats(greenSeats.length);
-        var adultsd=params.params.adnod;
-        var childrend=params.params.chnod;
-        var tnopd=params.params.tnopd;
-        var adultsr=params.params.adnor;
-        var childrenr=params.params.chnor;
-        var tnopr=params.params.tnopr;
-        // alert(greenSeats2);
-    
-        /////
-        if(tnopr==greenSeats.length){
-           // window.location.href = "http://localhost:3000/DepSumm/"+params.params._id+"/"+params.params.class+"/"+greenSeats+"/"+greenSeats.length+"/"+adultsd+"/"+childrend+"/"+tnopd+"/"+params.params.user_id;
-           localStorage.setItem("reFlight", JSON.stringify(flight)); 
-           window.location.href = "http://localhost:3000/FinalSumm/"+params.params._idd+"/"+params.params.classd+"/"+params.params.seats+"/"+params.params.totalseats+"/"+adultsd+"/"+childrend+"/"+tnopd+"/"+params.params._id+"/"+params.params.class+"/"+greenSeats+"/"+greenSeats.length+"/"+adultsr+"/"+childrenr+"/"+tnopr+"/"+params.params.user_id;
-       
-        }
-        else{
-            setError("Number of seats chosen must be equal to selected");
-        }
+        var adultsd=parseInt(id.adultsNumber);
+        var childrend=parseInt(id.childrenNumber);
+        console.log(greenSeats.length)
+        console.log(adultsd+childrend)
+       if( (adultsd+childrend) == greenSeats.length ){
+        localStorage.setItem("depFlight", JSON.stringify(flight)); 
+ 
+  window.location.href = "http://localhost:3000/editsumm/"+params.params.flight_id+"/"+id.class+"/"+id.adultsNumber+"/"+id.childrenNumber+"/"+greenSeats+"/"+userparams.params._id+"/"+reservationparams._id+"/"+params.params.desiredFlight_id;
 
-        /////
-        //window.location.href = "http://localhost:3000/FinalSumm/"+params.params._idd+"/"+params.params.classd+"/"+params.params.seats+"/"+params.params.totalseats+"/"+params.params._id+"/"+params.params.class+"/"+greenSeats+"/"+greenSeats.length+"/"+params.params.user_id;
+    }
+    else{
+        alert("Number of seats chosen must be equal to selected");
     }
 
+}
+
     useEffect(() => {
-        //console.log(params.params._idr);
-        axios.get('http://localhost:8000/flights/flight', iddd).then(resp => { setflight(resp.data) }).catch((err) => { console.log(err) });
-      
+       
+        axios.get('http://localhost:8000/flights/flight', flightparams).then(resp => { setflight(resp.data) }).catch((err) => { console.log(err) });
+        axios.post('http://localhost:8000/reservations/Reservation', reservationparams).then(resp => { setreservation(resp.data) }).catch((err) => { console.log(err) });
+
+        // console.log(flight);
     },[]);
 
     useEffect(() => {
       
       
-    if(params.params.class === "First class"){
+    if(id.class === "First class"){
+      //  alert(flight.firstSeatsAvailablePositions.length)
+        if(params.params.flight_id == params.params.desiredFlight_id)            // new
+            for(var i = 0; i < flight.firstSeatsAvailablePositions.length; i++)  
+                for(var j = 0; j < seatsPreviouslyChoosen.length; j++)
+                    if( i == j )
+                        flight.firstSeatsAvailablePositions[j] = null;       
         setsn(flight.firstSeatsAvailable);
         setsa(flight.firstSeatsAvailablePositions);
       }
-       else if(params.params.class === "Economy class"){
+       else if(id.class === "Economy class"){
+       // alert(flight.economySeatsAvailablePositions.length)
+        if(params.params.flight_id == params.params.desiredFlight_id)            // new
+            for(var i = 0; i < flight.economySeatsAvailablePositions.length; i++)
+                for(var j = 0; j < seatsPreviouslyChoosen.length; j++)
+                    if( i == j )
+                        flight.economySeatsAvailablePositions[j] = null;
         setsn(flight.economySeatsAvailable);
         setsa(flight.economySeatsAvailablePositions);
        }   
-       else if(params.params.class === "Business class"){
+       else if(id.class === "Business class"){
+       // alert(flight.businessSeatsAvailablePositions.length)
+        if(params.params.flight_id == params.params.desiredFlight_id)            // new
+            for(var i = 0; i < flight.businessSeatsAvailablePositions.length; i++)
+                for(var j = 0; j < seatsPreviouslyChoosen.length; j++)
+                    if( i == j )
+                        flight.businessSeatsAvailablePositions[j] = null;
         setsn(flight.businessSeatsAvailable);
         setsa(flight.businessSeatsAvailablePositions);
     }
     // setsa([true, true, false, true, false, false, true, true, true, true, false, true, false, false, true, true, true, true, false, true, false, false, true, true, true, true, false, true, false, false, true, true, true, true, false, true, false, false, true, true, true, true, false, true, false, false, true, true, false, false,false])
-    console.log(params.params._id);
-    console.log(flight);
+
     
     },[flight]);
 
 useEffect(()=>{
+    console.log(id.class);
+    console.log(reservation.classChoosen);
+
+    var xx= reservation.seatsChoosen[0].split(",")
+    
     for(let i=0; i<sa.length; i++){
-        if(sa[i]){
+        var x=i+1+"";
+        console.log("i=",i,reservation.seatsChoosen)
+        if(sa[i] == null)  {          
+            colors.push('#00FF00')  } 
+        else if(sa[i]){
             colors.push('#FFFFFF') ;
         }
+        
+        else if(xx.includes(x)
+        && reservation.classChoosen.includes(id.class)
+        )
+         {colors.push('#00FF00') ;}
         else{
-            colors.push('#FF0000') ;
+            colors.push('#FF0000') ;}
         }
-    }
+        console.log(colors);
+        
+
     setmo7sen(colors);
-//alert("ay7aga")
-},[sa])
+   
+
+},[sa,reservation])
+
+useEffect(()=>{ 
+    if(params.params.flight_id == params.params.desiredFlight_id){            // new
+        var xx= reservation.seatsChoosen[0].split(",")
+        if(reservation.classChoosen.includes(id.class)){
+        for(let i=0; i<xx.length; i++){
+        if(parseInt(xx[i])!==0){
+        greenSeats.push(parseInt(xx[i]));}
+    }
+}}},[reservation]);
     
     return (
         <div>
@@ -118,24 +159,21 @@ useEffect(()=>{
             <br/>
             <span style ={{fontWeight: '900' , fontSize: 70 , color: 'white', fontFamily: 'ui-sans-serif'}}>Choose Your Seats</span>
             <br/><br/>{error && <Alert style={{backgroundColor: 'rgb(244, 67, 54,0.3)'}} severity="error"><strong> {error}</strong></Alert>}
-
-            <span style ={{fontWeight: '500' , fontSize: 30 , color: 'white', fontFamily: 'ui-sans-serif'}}>Please choose {params.params.tnopr} seat(s)</span>
+            <span style ={{fontWeight: '500' , fontSize: 30 , color: 'white', fontFamily: 'ui-sans-serif'}}>Please choose {p} seat(s)</span>
+            <br/>
             <form onSubmit={(e) => {
                 HandleSubmit(e); 
 
             }}>
 
+                <table className="table" style={{marginLeft:"700px" ,width:"2000px"}}>
 
-                <table className="table" style={{marginLeft:"700px"}}>
-                        <tr>
                             
                             <th>c1</th> 
                             <th>c2</th> 
                             <th></th> 
                             <th>c3</th> 
                             <th>c4</th> 
-                           
-                        </tr>
                    
           <tbody>
           {dividedBy4.map((number) => 
@@ -347,12 +385,11 @@ useEffect(()=>{
               </tbody>
         </table>
 
-        <Button type='submit' variant="contained" style={{margin:'6px 0' , backgroundColor:'rgb(160, 208, 226)'}}>Confirm</Button> 
+        <Button type='submit' variant="contained" style={{margin:'6px 0' , backgroundColor:'rgb(160, 208, 226)'}}>Confirm</Button>    
 
 </form>
 </div>   
-
     )
 }
 
-export default ChooseSeats2;
+export default ChangeSeats;

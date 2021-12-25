@@ -18,6 +18,8 @@ flightRouter.get('/search',flightController.getsearchFlight);
 flightRouter.get('/usersearch',flightController.getusersearchFlight);
 flightRouter.post('/redSeats',flightController.redSeats);
 flightRouter.post('/greenSeats',flightController.greenSeats);
+flightRouter.post('/chse',flightController.chse);
+
 flightRouter.post('/flightById',flightController.findFlight3);
 
 module.exports=flightRouter;

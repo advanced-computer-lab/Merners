@@ -49,38 +49,53 @@ const addAdmin=(req,res)=>
 
 const addUser=(req,res)=>
 {
-    const user=new User(
+    console.log(req.body);
+    
+    User.findOne({username:req.body.username}).then((result)=>{
+        if(result !== null)
         {
-            username : req.body.username,
-            firstName: req.body.firstName,
-            lastName : req.body.lastName,
-            email:req.body.email,
-            homeAddress: req.body.homeAddress,
-            phoneNumber:req.body.phoneNumber,
-            passportNumber: req.body.passportNumber,
-            password:req.body.password,
-            reservedFlights:[],
-            isAdmin: false
+            console.log('Hello');
+            res.json({username:null});
+            return ;
         }
-    );
-    user.save().then((result)=>{
-        res.json({
-            _id: user._id,
-            username : user.username,
-            firstName: user.firstName,
-            lastName : user.lastName,
-            email:user.email,
-            homeAddress: user.homeAddress,
-            phoneNumber: user.phoneNumber,
-            passportNumber: user.passportNumber,
-            password:user.password,
-            reservedFlights:user.reservedFlights,
-            token: generateToken(user._id),
-          });
-    }).catch((err)=>
-    {
-        res.send({user:null})
+        
     })
+    User.findOne({email:req.body.email}).then((result)=>{
+        if(result !== null)
+    {
+        res.json({email:null});
+        return ;
+    }
+        })
+            const user=new User(
+                {
+                    username : req.body.username,
+                    firstName: req.body.firstName,
+                    lastName : req.body.lastName,
+                    email:req.body.email,
+                    homeAddress: req.body.homeAddress,
+                    phoneNumber:req.body.phoneNumber,
+                    passportNumber: req.body.passportNumber,
+                    password:req.body.password,
+                    reservedFlights:[],
+                    isAdmin: false
+                }
+            );
+            user.save().then((result)=>{
+                res.json({
+                    _id: user._id,
+                    username : user.username,
+                    firstName: user.firstName,
+                    lastName : user.lastName,
+                    email:user.email,
+                    homeAddress: user.homeAddress,
+                    phoneNumber: user.phoneNumber,
+                    passportNumber: user.passportNumber,
+                    password:user.password,
+                    reservedFlights:user.reservedFlights,
+                    token: generateToken(user._id),
+                  });
+            })
 };
 
 const getAllUsers=(req,res)=>
@@ -102,6 +117,27 @@ const findUser=(req,res)=>
     });
 };
 
+const changePassword=(req,res)=>
+{ 
+    var id = req.body._id;
+    User.findOne({ _id: id }).then((result) => {
+        result.username = result.username;
+        result.firstName= result.firstName;
+        result.lastName = result.lastName;
+        result.email = result.email;
+        result.homeAddress = result.homeAddress;
+        result.phoneNumber = result.phoneNumber;
+        result.passportNumber = result.passportNumber;
+        result.password = req.body.password;
+        result.reservedFlights = result.reservedFlights;
+        result.save().then((result) => {
+            res.send({ user: result });
+        }).catch((err) => {
+            res.send(err.message);
+        })
+    });
+};
+
 const login= (req,res)=>
 {
     const username = req.body.username ;
@@ -110,12 +146,6 @@ const login= (req,res)=>
         if(user)
         {
            bcrypt.compare(password, user.password, function(err, isMatch) {
-            //    if(password === user.password){
-            //         isMatch=true;
-            //    }
-            //    else{
-            //     isMatch=false;
-            //    }
                 if (err) {
                   console.log(err.message);
                 } else if (!isMatch) {
@@ -177,5 +207,6 @@ module.exports=
     getAllUsers,
     findUser,
     updateUser,
-    login
+    login,
+    changePassword
 }

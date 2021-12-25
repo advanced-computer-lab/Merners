@@ -4,7 +4,10 @@ import { useState, useEffect } from 'react'
 import {useParams} from 'react-router-dom'
 import Header from'./Header'
 import 'react-dropdown/style.css';
-import MainScreen from './mainScreen'
+import { Card , Container , Row , Col} from "react-bootstrap";
+import {Grid, GridColumn} from 'semantic-ui-react';
+import {Button,Paper} from '@material-ui/core';
+import {SiLotpolishairlines} from 'react-icons/si';
 
 function DepSumm() {
     const id=useParams();
@@ -47,79 +50,173 @@ function DepSumm() {
   useEffect(()=>{
     if(params.params.class === "First class"){
         setba(flight.firstSeatsLuggage);
-        settp(flight.firstSeatsPrice*(params.params.totalseats));
+        settp(flight.firstSeatsPrice*(params.params.adnod)+ 0.7 *flight.firstSeatsPrice*(params.params.chnod));
        
       }
        else if(params.params.class === "Economy class"){
         setba(flight.economySeatsLuggage);
-        settp(flight.economySeatsPrice*(params.params.totalseats));
+        settp(flight.economySeatsPrice*(params.params.adnod) + 0.7 * flight.economySeatsPrice*(params.params.chnod));
        }   
        else if(params.params.class === "Business class"){
         setba(flight.businessSeatsLuggage);
-        settp(flight.businessSeatsPrice*(params.params.totalseats));
+        settp(flight.businessSeatsPrice*(params.params.adnod) + flight.businessSeatsPrice*(params.params.chnod)*0.7);
     }
 
   },[flight]);
 
     return (
         <div>
-             <Header /> <br/>
-             <MainScreen  title = "Departure Flight Details" style = {{display : 'flex'}}>
-            <form onSubmit={(e) => {
-                HandleSubmit(e);
+        <Header /> <br/>
+         <span style ={{fontWeight: '900' , fontSize: 70 , color: 'white', fontFamily: 'ui-sans-serif'}}>Flight Summary</span>
+         <form onSubmit={(e) => {HandleSubmit(e);}}>
 
-            }}>
+             <Container>
+                        <Row>
+                            <Col/>
+                            <Col>
+                    <Card style={{ width: '50rem' , margin: 20 , backgroundColor: 'rgba(255, 255, 255, 0.9)' }} borderRadius={50}> 
+                      
+                    <Card.Header borderRadius={50} style = {{fontSize : 22 ,color: 'white' ,fontWeight : "bold" , backgroundColor : 'rgb(112,201,225,255)'}}>
+                        <Row>
+                            <Col>
+                                <SiLotpolishairlines fill="white"/>
+                               
+                                <sapn style = {{fontSize : 18 ,color: 'white' ,fontWeight : "bold" , backgroundColor : 'rgb(112,201,225,255)'}}>  <i class="fa fa-cloud"/>GUC AIRLINES</sapn>
+                            </Col>
+                            <Col>
+                            </Col>
+                            <Col>
+                                <span style ={{fontWeight: '900' , fontSize: 24 , color: 'white'}}></span>
+                            </Col>
+                        </Row>
+                        </Card.Header> 
 
-                <label >Flight Number: </label>
-                <label > {flight.flightNumber}</label><br/><br/>  
+                      <Card.Body> 
+                        
+                        
+                        <Card.Text>
+                            
+                            <Grid celled columns={3}>
 
-                 <label> Departure Date: </label>
-                <label> {(flight.departureDate).substring(0,10)}</label><br/><br/> 
+                            <Grid.Row>
+                              <Grid.Column>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>FLIGHT NUMBER </h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.flightNumber}</span>
+                              </Grid.Column>
+                              <GridColumn />
+                              <GridColumn />
+                              <Grid.Column/>
+                              <Grid.Column/>
+                              <Grid.Column>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>FROM </h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.from.toUpperCase()}</span>
+                              </Grid.Column>
+                              <Grid.Column/>
+                              <Grid.Column/>
+                              <Grid.Column/>
+                              <Grid.Column/>
+                              <Grid.Column>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>TO </h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.to.toUpperCase()}</span>
+                              </Grid.Column>
+                              <Grid.Column/>
+                              <Grid.Column/>
+                              <GridColumn />
+                              <Grid.Column/>
+                              <Grid.Column>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>AIRPORT </h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.airport.toUpperCase()}</span>
+                              </Grid.Column>
+                              </Grid.Row>
 
-                <label >Departure Time:  </label>
-                <label > {flight.departureTime}</label><br/><br/>    
-                
-                <label> Arrival Date: </label>
-                <label>{(flight.arrivalDate).substring(0,10)}</label><br/><br/>    
-                
-               
-                <label> Arrival Time: </label>
-                <label > {flight.arrivalTime}</label><br/><br/>   
-                
-               
-                <label> Trip duration: </label>
-                <label>{duration}</label><br/><br/>
+                              <Grid.Row />
 
-                <label> From: </label>
-                <label> {flight.from}</label><br/><br/> 
-                
-                <label> To: </label>
-                <label> {flight.to}</label><br/><br/> 
+                              <Grid.Row>
+                              <Grid.Column>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>DEPARTURE DATE </h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.departureDate.substring(0,10)}</span>
+                              </Grid.Column>
+                              <GridColumn />
+                              <GridColumn />
+                              <Grid.Column>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>DEPARTURE TIME </h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.departureTime}</span>
+                              </Grid.Column>
+                              <GridColumn />
+                              <GridColumn />
+                              <Grid.Column>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>ARRIVAL DATE </h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.arrivalDate.substring(0,10)}</span>
+                              </Grid.Column>
+                              <GridColumn />
+                              <GridColumn />
+                              <Grid.Column>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>ARRIVAL TIME </h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.arrivalTime}</span>
+                              </Grid.Column>
+                            </Grid.Row>
 
-                <label> Airport: </label>
-                <label> {flight.airport}</label><br/><br/> 
-                
-                <label> Terminal: </label>
-                <label> {flight.terminal}</label><br/><br/> 
+                            <Grid.Row />
 
-                <label><b>{params.params.class}</b></label><br/>
+                            <Grid.Row>
+                              <Grid.Column>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>DURATION </h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{duration}</span>
+                              </Grid.Column>
+                              <GridColumn />
+                              <GridColumn />
+                              <Grid.Column>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>TERMINAL </h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{flight.terminal}</span>
+                              </Grid.Column>
+                              <GridColumn />
+                              <GridColumn />
+                              <Grid.Column>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>CLASS CHOSEN</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{params.params.class} </span>
+                              </Grid.Column>   
+                              <GridColumn />
+                              <GridColumn />
+                              <Grid.Column>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>TOTAL PRICE</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{tp} €</span>
+                              </Grid.Column>
+                            </Grid.Row>
 
+                            <Grid.Row/>
 
-                <label> Baggage allowance: </label>
-                <label> {ba} Kgs</label><br/>
+                            <Grid.Row>
+                            <GridColumn />
+                              <Grid.Column>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>CHOSEN SEATS</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{params.params.seats} </span>
+                              </Grid.Column>
+                              <GridColumn />
+                              <GridColumn />
+                              <Grid.Column>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>LUGGAGE ALLOWANCE</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{ba} KG</span>
+                              </Grid.Column>
+                              <GridColumn />
+                              <GridColumn />
+                              <Grid.Column>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>ADULTS</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{params.params.adnod} </span>
+                              </Grid.Column>   
+                              <GridColumn />
+                              <GridColumn />
+                              <GridColumn>
+                              <h3 className="mb-2 text-muted" style = {{fontSize : 18 , fontWeight: 500}}>CHILDREN</h3> <span style = {{fontSize : 18 , fontWeight: 500}}>{params.params.chnod} </span>
+                              </GridColumn>
+                              <Grid.Column>
+                                               </Grid.Column>
+                            </Grid.Row>
+                        
 
-    
+                             </Grid>
+                          
+                        
+                        </Card.Text>
+                      </Card.Body>
+                      <Card.Footer borderRadius={50} class="d-flex" style ={{ backgroundColor : 'rgb(112,201,225,255)' , fontSize: 17 , fontWeight: 'bold' }}> </Card.Footer>
+                   
+                    </Card> 
+                    </Col>
+                    <Col/>
+                    </Row>
+                    </Container>
+                   
+                    <Button type='submit' variant="contained" style={{margin:'6px 0' , backgroundColor:'rgb(160, 208, 226)'}}>CHOOSE RETURN FLIGHT</Button> 
+                    
 
-                <label> Choosen Seats: </label>
-                <label> {params.params.seats}</label><br/><br/> 
-
-                <label> Total Price: </label>
-                <label> {tp} Euros</label><br/><br/> 
-                <input type="submit" value="Reserve return flight"></input> 
-            </form>
-         
-    </MainScreen>
-        </div>
-    )
+        </form>
+        
+    </div>
+           )
 }
 export default DepSumm
