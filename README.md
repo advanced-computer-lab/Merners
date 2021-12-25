@@ -5,7 +5,15 @@
 * A University Project to help us in web developments and applying the concepts we studied as software engineers
 
 ## Screenshots
+ **Admin
 ![image](https://user-images.githubusercontent.com/79222411/147392202-a61434cd-3a60-4d9e-82f1-ce1bd09a7127.png)
+![image](https://user-images.githubusercontent.com/79222411/147392262-1a71d21b-50a0-4dba-8edc-05aa4b3e049a.png)
+![image](https://user-images.githubusercontent.com/79222411/147392270-12a06312-c289-43ba-975f-87795de322c0.png)
+![image](https://user-images.githubusercontent.com/79222411/147392287-9cadbf12-66e2-4689-a1a5-51959d95a078.png)
+
+**User
+![image](https://user-images.githubusercontent.com/79222411/147392297-2036fb46-351b-4dba-9baa-621d6d62cecb.png)
+
 
 
 ## Framework used
