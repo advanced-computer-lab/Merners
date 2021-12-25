@@ -185,11 +185,11 @@
    ***
    
   * #### The Guest/ExistingUser should be able to see details of any departure/return flight:
-    **  Functionality : viewing details of fligth
-    **  Route Backend:  http://localhost:8000/flights/flight
-    **  Route Frontend: http://localhost:3000/showDetails/:_id/:user_id
-    **  Request type : GET
-    **  Response: Details of selected flight
+    *  Functionality : viewing details of fligth
+    *  Route Backend:  http://localhost:8000/flights/flight
+    *  Route Frontend: http://localhost:3000/showDetails/:_id/:user_id
+    *  Request type : GET
+    *  Response: Details of selected flight
       
    ***
             
@@ -293,10 +293,17 @@
  * npm install stripe
  * npm install @mui/material
  * npm install react-bootstrap
- * npm install nodemon
  * npm install nodemailer
- * npm install bycrypt
+ * npm install bycryptjs
  * npm install axios
+ * npm install jsonwebtoken
+ * npm install uuid
+ * npm install react-icons
+ * npm install react-stripe-checkout
+ * npm install react-dropdown
+
+
+
 
 
  ## Team Members:
