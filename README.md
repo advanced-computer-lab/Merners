@@ -188,7 +188,7 @@
            	
    ***
    
-      * #### The ExistingUser should be able to see details of any departure/return flight:
+   * #### The ExistingUser should be able to see details of any departure/return flight:
     *  Functionality : viewing details of fligth
     *  Route Backend:  http://localhost:8000/flights/flight
     *  Route Frontend: http://localhost:3000/showDetails/:_id/:user_id
