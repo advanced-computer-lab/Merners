@@ -185,19 +185,19 @@
    ***
    
   * #### The Guest/ExistingUser should be able to see details of any departure/return flight:
-     *  Functionality : viewing details of fligth
-     *  Route Backend:  http://localhost:8000/flights/flight
-     *  Route Frontend: http://localhost:3000/showDetails/:_id/:user_id
-     *  Request type : GET
-     *  Response: Details of selected flight
+    *  Functionality : viewing details of fligth
+    *  Route Backend:  http://localhost:8000/flights/flight
+    *  Route Frontend: http://localhost:3000/showDetails/:_id/:user_id
+    *  Request type : GET
+    *  Response: Details of selected flight
       
    ***
             
   * #### The Guest/ExistingUser should be able to see details of to be reserved departure and return flights:
-     *  Functionality : summery of reserved flights
-     *  Route : /allres
-     *  Request type : GET
-     *  Response: Details of to be reserved flights
+    *  Functionality : summery of reserved flights
+    *  Route : /allres
+    *  Request type : GET
+    *  Response: Details of to be reserved flights
 
 ***
 
@@ -286,7 +286,10 @@
  ## Tests
 
  ## Installations
- * npm install react-express-mongodb-dotenv
+ * npm install react
+ * npm install express
+ * npm install mongodb
+ * npm install dotenv
  * npm install stripe
  * npm install @mui/material
  * npm install react-bootstrap
