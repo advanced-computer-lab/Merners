@@ -155,7 +155,7 @@
         "airport": "airport",
         "from": "Cairo",
         "to": "Alex",}
-      * Response: A message that the flight is deleted
+      *  Response: A message that the flight is deleted
         
    
 
