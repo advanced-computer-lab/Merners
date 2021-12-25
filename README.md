@@ -168,20 +168,20 @@
      *  Response: All flights available matching the search criteria
            	
    
-    * #### The Guest/ExistingUser should be able to see details of any departure/return flight:
+  * #### The Guest/ExistingUser should be able to see details of any departure/return flight:
      *  Functionality : viewing fligth
      *  Route : /flight
      *  Request type : GET
      *  Response: Details of selected flight
            	
             
-   * #### The Guest/ExistingUser should be able to see details of to be reserved departure and return flights:
+  * #### The Guest/ExistingUser should be able to see details of to be reserved departure and return flights:
      *  Functionality : summery of reserved flights
-     *  Route : /reservation
+     *  Route : /allres
      *  Request type : GET
-     *  Response: Details of reserved flights
+     *  Response: Details of to be reserved flights
 
-* #### The Guest/ExistingUser should be able to cancel departure and return flights before confirming reservation:
+  * #### The Guest/ExistingUser should be able to cancel departure and return flights before confirming reservation:
      *  Functionality : summery of reserved flights
      *  Route : /cancel
      *  Request type : POST
@@ -196,8 +196,8 @@
      *  Response: message of logging in successfully
      
      
-  * #### The ExistingUser should be able to update his/her info:
-     *  Functionality : updating info
+  * #### The ExistingUser should be able to update his/her profile:
+     *  Functionality : updating profile
      *  Route : /updateUser
      *  Request type :POST
      *  Request body:{"username":"Laila","first Name":"Laila","Last Name":"Ayman","email":123@gmail.com}
@@ -219,19 +219,27 @@
 
 * #### The ExistingUser should be able to view his/her flights:
      *  Functionality : viewing flights
-     *  Route : /deleteUserFlight
+     *  Route : /getUserReserved
      *  Request type :POST
      *  Response: details of reserved flights
 
 
+* #### The ExistingUser should be able to  edit reserved flights:
+     *  Functionality : edit reserved flights
+     *  Route : /update
+     *  Request type :POST
+     *  Response : message of successful update
+
+
+
 * #### The ExistingUser should be able to  delete reserved flights:
      *  Functionality : delete reserved flights
-     *  Route : /reserve
+     *  Route : /deleteUserFlight
      *  Request type :POST
      *  Response : message of successful deletion
 
-* #### TheGuestUser should be able to register:
-     *  Functionality : register new user
+* #### TheGuestUser should be able to register/sign up:
+     *  Functionality : register new user/sign up
      *  Route : /register
      *  Request type :POST
      *  Request body:{"username":"lfm","first Name":"Lidia","last Name":"karim","Email":"1234@gmail.com","address":"cairo","phone number":"123456789","password":"123","confirm password":"123","passport number":""135792468}
