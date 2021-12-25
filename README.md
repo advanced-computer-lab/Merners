@@ -159,10 +159,84 @@
         "to":"Finland"}
         
    
-
+ ### 2-Guest/ExistingUser Functionalities
+  * #### The Guest/ExistingUser should be able to search for a departure/return flight:
+     *  Functionality : searching for a fligth
+     *  Route : /usersearch
+     *  Request type : GET
+     *  Request body:{ "number of passengers": "2", "airport":"CAI" , "terminals":"2", "departure date":"25/12/2021", "arrival date":"1/1/2022","cabin":"first"}
+     *  Response: All flights available matching the search criteria
            	
-       
    
+    * #### The Guest/ExistingUser should be able to see details of any departure/return flight:
+     *  Functionality : viewing fligth
+     *  Route : /flight
+     *  Request type : GET
+     *  Response: Details of selected flight
+           	
+            
+   * #### The Guest/ExistingUser should be able to see details of to be reserved departure and return flights:
+     *  Functionality : summery of reserved flights
+     *  Route : /reservation
+     *  Request type : GET
+     *  Response: Details of reserved flights
+
+* #### The Guest/ExistingUser should be able to cancel departure and return flights before confirming reservation:
+     *  Functionality : summery of reserved flights
+     *  Route : /cancel
+     *  Request type : POST
+     *  Response: confirmation message
+
+
+ * #### The ExistingUser should be able to login:
+     *  Functionality : logging in
+     *  Route : /login
+     *  Request type :POST
+     *  Request body:{"username":"Laila","password":123}
+     *  Response: message of logging in successfully
+     
+     
+  * #### The ExistingUser should be able to update his/her info:
+     *  Functionality : updating info
+     *  Route : /updateUser
+     *  Request type :POST
+     *  Request body:{"username":"Laila","first Name":"Laila","Last Name":"Ayman","email":123@gmail.com}
+     *  Response: message of update is done successfully
+
+ * #### The ExistingUser should be able to change his/her password:
+     *  Functionality : changing password
+     *  Route : /changePassword
+     *  Request type :POST
+     *  Request body:{"oldpassword":"123","newpassword":"137","confirm newpassword":"137"}
+     *  Response: message of password has changed successfully
+
+* #### The ExistingUser should be able to reserve flights:
+     *  Functionality : reserve flights
+     *  Route : /reserve
+     *  Request type :POST
+     *  Response : message of successful reservation
+     
+
+* #### The ExistingUser should be able to view his/her flights:
+     *  Functionality : viewing flights
+     *  Route : /deleteUserFlight
+     *  Request type :POST
+     *  Response: details of reserved flights
+
+
+* #### The ExistingUser should be able to  delete reserved flights:
+     *  Functionality : delete reserved flights
+     *  Route : /reserve
+     *  Request type :POST
+     *  Response : message of successful deletion
+
+* #### TheGuestUser should be able to register:
+     *  Functionality : register new user
+     *  Route : /register
+     *  Request type :POST
+     *  Request body:{"username":"lfm","first Name":"Lidia","last Name":"karim","Email":"1234@gmail.com","address":"cairo","phone number":"123456789","password":"123","confirm password":"123","passport number":""135792468}
+     *  Response : redirecting to signing in page
+
 
 
 
