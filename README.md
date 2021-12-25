@@ -1,10 +1,11 @@
 # GUCAirlines
 * It is an airline reservation system which allow users to reserve tickets to fly globally or domestically and the admin is allowed to manage flights such as creating flights, deleting old ones and searching for flights.
 
-
+## Motivation
+* A University Project to help us in web developments and applying the concepts we studied as software engineers
 
 ## Framework used
-* MERN Stack
+* MERN (mongodb-express-react-nodejs) Stack
 
 
 
@@ -16,6 +17,12 @@
 
 ## Port to use for database establishment 
  8000
+ 
+## Starting the website command
+* npm start
+ 
+## Port to use for initialize the website
+ 3000
  
  ## Routes
  
