@@ -4,6 +4,9 @@
 ## Motivation
 * A University Project to help us in web developments and applying the concepts we studied as software engineers
 
+## Code Style
+* The code of the frontend (React) was written using functions 
+
 ## Screenshots
  * Admin
 ![image](https://user-images.githubusercontent.com/79222411/147392202-a61434cd-3a60-4d9e-82f1-ce1bd09a7127.png)
@@ -191,7 +194,7 @@
      *  Request type : GET
      *  Request body:{ "number of passengers": "2", "airport":"CAI" , "terminals":"2", "departure date":"25/12/2021", "arrival date":"1/1/2022","cabin":"first"}
      *  Response: All flights available matching the search criteria
-
+***
 * #### The Guest should be able to search for a departure/return flight:
      *  Functionality : searching for a fligth
      *  Route Backend :  http://localhost:8000/flights/usersearch
