@@ -288,7 +288,7 @@
  ## Installations
  * npm install react
  * npm install express
- * npm install mongodb
+ * npm install mongoose
  * npm install dotenv
  * npm install stripe
  * npm install @mui/material
