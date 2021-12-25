@@ -188,7 +188,7 @@
            	
    ***
    
-  * #### The ExistingUser should be able to see details of any departure/return flight:
+ * #### The ExistingUser should be able to see details of any departure/return flight:
     *  Functionality : viewing details of fligth
     *  Route Backend:  http://localhost:8000/flights/flight
     *  Route Frontend: http://localhost:3000/showDetails/:_id/:user_id
@@ -197,7 +197,7 @@
       
    ***
    
-  * #### The GuestUser should be able to see details of any departure/return flight:
+ * #### The GuestUser should be able to see details of any departure/return flight:
     *  Functionality : viewing details of fligth
     *  Route Backend:  http://localhost:8000/flights/flight
     *  Route Frontend: http://localhost:3000/showDetailsGuest/:_id
@@ -207,7 +207,7 @@
    ***
    
   
-  * #### The ExistingUser should be able to see details of to be reserved departure and return flights:
+ * #### The ExistingUser should be able to see details of to be reserved departure and return flights:
     *  Functionality : summery of reserved flights
     *  Route Backend: http://localhost:8000/flights/flight
     *  Route Frontend: http://localhost:3000/FinalSumm/:_id/:class/:seats/:totalseats/:adnod/:chnod/:tnopd/:_idr/:classr/:seatsr/:totalseatsr/:adnor/:chnor/:tnopr/:user_id
