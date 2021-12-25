@@ -256,7 +256,7 @@
  * #### The ExistingUser should be able to login:
      *  Functionality : logging in
      *  Route Backend: http://localhost:8000/users/login
-     *  Route Frontend: http://localhost:3000/
+     *  Route Frontend: http://localhost:3000/Home/:user_id
      *  Request type :POST
      *  Request body:{"username":"Laila","password":123}
      *  Response: message of logging in successfully
@@ -289,7 +289,6 @@
 * #### The ExistingUser should be able to reserve flights:
      *  Functionality : reserve flights
      *  Route Backend : **http://localhost:8000/reservations/create **http://localhost:8000/flights/redSeats
-     *  Route Frontend:
      *  Request type :POST
      *  Response : message of successful reservation
 ***
@@ -307,7 +306,7 @@
 * #### The ExistingUser should be able to  edit reserved flights:
      *  Functionality : edit reserved flights
      *  Route Backend : http://localhost:8000/
-     *  Route Frontend: http://localhost:3000/
+     *  Route Frontend: **http://localhost:3000/showDetailsEdit/:flight_id/:user_id/:reservation_id/:desiredFlight_id             **http://localhost:3000/editSeats/flight_id/:class/:adultsNumber/:childrenNumber/:user_id/:reservation_id/:desiredFlight_id        **http://localhost:3000/editsumm/:flight_id/:class/:adultsNumber/:childrenNumber/:seats/:user_id/:reservation_id/:desiredFlight_id
      *  Request type :POST
      *  Response : message of successful update
 
