@@ -1,5 +1,5 @@
 # GUCAirlines
-* It is an airline reservation system which allow users to reserve tickets to fly globally or domestically.
+* It is an airline reservation system which allow users to reserve tickets to fly globally or domestically and the admin is allowed to manage flights such as creating flights, deleting old ones and searching for flights.
 
 
 
