@@ -5,7 +5,7 @@
 * A University Project to help us in web developments and applying the concepts we studied as software engineers
 
 ## Code Style
-* The code of the frontend (React) was written using functions instead of classes 
+* The code of the frontend (React) was written using functions 
 
 ## Screenshots
  * Admin
