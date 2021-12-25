@@ -352,16 +352,13 @@
  * npm install react-dropdown
  * npm install body-parser
 
-
-
- ## API
- 
- ## Tests
  
  # How to use?
+ ## To Activate the backend
  * Open a new terminal in visual studio code and write this command:
    * cd backend
    * node app.js (Start File to connect to the database)(Port:8000)
+  ## To Activate the frontend
  * Next open a new terminal and write this command:
    * cd frontend
    * npm start
