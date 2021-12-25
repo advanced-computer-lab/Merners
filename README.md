@@ -132,31 +132,29 @@
 
       *  Response : A message informing that updating is done successfully
 
-* #### The Admin should be able to delete any flight:
-      *  Functionality : delte flight
-      *  Route : /delete
-      *  Response: A message that the flight is deleted
-      *  Request type :POST
-      *  Request body: { "_id": "61aa72ee141edfedf9ad6322",
-        "flightNumber": "123",
-        "departureTime": "01:30",
-        "arrivalTime": "03:30",
-        "departureDate": "2021-12-05T00:00:00.000Z",
-        "arrivalDate": "2021-12-05T00:00:00.000Z",
-        "terminal": 1,
-        "firstSeatsAvailable": 15,
-        "firstSeatsLuggage": 51,
-        "firstSeatsPrice": 3002,
-        "economySeatsAvailable": 118,
-        "economySeatsLuggage": 26,
-        "economySeatsPrice": 1751,
-        "businessSeatsAvailable": 61,
-        "businessSeatsLuggage": 36,
-        "businessSeatsPrice": 2498,
-        "airport": "airport",
-        "from": "Cairo",
-        "to": "Alex",}
-     
+  * #### The Admin should be able to delete any flight:
+     *  Functionality : deleting a fligth
+     *  Route : /delete
+     *  Request type : POST
+     *  Request body: {
+        "flightNumber":"137",
+        "departureTime":"14:00",
+        "arrivalTime":"17:00",
+        "departureDate":"27/01/2022",
+        "arrivalDate":"14/02/2022",
+        "terminal":"3",
+        "firstSeatsAvailable":"50",
+        "firstSeatsLuggage":"2",
+        "firstSeatsPrice":"1500",
+        "economySeatsAvailable":"60",
+        "economySeatsLuggage":"3",
+        "economySeatsPrice":"500",
+        "businessSeatsAvailable":"20",
+        "businessSeatsLuggage":"1",
+        "businessSeatsPrice":"1000",
+        "airport":"CAI",
+        "from":"Cairo",
+        "to":"Finland"}
         
    
 
