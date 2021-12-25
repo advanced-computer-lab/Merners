@@ -5,14 +5,20 @@
 * A University Project to help us in web developments and applying the concepts we studied as software engineers
 
 ## Screenshots
- **Admin
+ * Admin
 ![image](https://user-images.githubusercontent.com/79222411/147392202-a61434cd-3a60-4d9e-82f1-ce1bd09a7127.png)
 ![image](https://user-images.githubusercontent.com/79222411/147392262-1a71d21b-50a0-4dba-8edc-05aa4b3e049a.png)
 ![image](https://user-images.githubusercontent.com/79222411/147392270-12a06312-c289-43ba-975f-87795de322c0.png)
 ![image](https://user-images.githubusercontent.com/79222411/147392287-9cadbf12-66e2-4689-a1a5-51959d95a078.png)
 
-**User
+* User
 ![image](https://user-images.githubusercontent.com/79222411/147392297-2036fb46-351b-4dba-9baa-621d6d62cecb.png)
+![image](https://user-images.githubusercontent.com/79222411/147392371-70efd0fd-dc89-4481-9397-aa717862fe13.png)
+![image](https://user-images.githubusercontent.com/79222411/147392339-f24f7af8-67ca-41c2-8ac0-4b385cc54d0a.png)
+![image](https://user-images.githubusercontent.com/79222411/147392343-08d5d1bb-19f3-44bb-be34-654a4046d9df.png)
+![image](https://user-images.githubusercontent.com/79222411/147392351-ae51e650-57b7-45de-96c3-1daa692399a7.png)
+![image](https://user-images.githubusercontent.com/79222411/147392357-73e18d0c-0728-4bf2-8f4c-430218952e9d.png)
+![image](https://user-images.githubusercontent.com/79222411/147392359-7c6b57e6-c428-4dc0-b481-5f56c3e30199.png)
 
 
 
