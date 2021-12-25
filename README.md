@@ -194,7 +194,7 @@
      *  Request type : GET
      *  Request body:{ "number of passengers": "2", "airport":"CAI" , "terminals":"2", "departure date":"25/12/2021", "arrival date":"1/1/2022","cabin":"first"}
      *  Response: All flights available matching the search criteria
-
+***
 * #### The Guest should be able to search for a departure/return flight:
      *  Functionality : searching for a fligth
      *  Route Backend :  http://localhost:8000/flights/usersearch
