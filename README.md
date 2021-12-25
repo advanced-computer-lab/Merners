@@ -4,6 +4,9 @@
 ## Motivation
 * A University Project to help us in web developments and applying the concepts we studied as software engineers
 
+## Code Style
+* The code of the frontend (React) was written using functions instead of classes 
+
 ## Screenshots
  * Admin
 ![image](https://user-images.githubusercontent.com/79222411/147392202-a61434cd-3a60-4d9e-82f1-ce1bd09a7127.png)
