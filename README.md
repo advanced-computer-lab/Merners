@@ -288,7 +288,8 @@
 
 * #### The ExistingUser should be able to reserve flights:
      *  Functionality : reserve flights
-     *  Route Backend : **http://localhost:8000/reservations/create **http://localhost:8000/flights/redSeats
+     *  Route Backend : * http://localhost:8000/reservations/create
+                        * http://localhost:8000/flights/redSeats
      *  Request type :POST
      *  Response : message of successful reservation
 ***
@@ -305,7 +306,7 @@
 
 * #### The ExistingUser should be able to  edit reserved flights:
      *  Functionality : edit reserved flights
-     *  Route Backend : http://localhost:8000/
+     *  Route Backend : http://localhost:8000/flights/update
      *  Route Frontend: **http://localhost:3000/showDetailsEdit/:flight_id/:user_id/:reservation_id/:desiredFlight_id             **http://localhost:3000/editSeats/flight_id/:class/:adultsNumber/:childrenNumber/:user_id/:reservation_id/:desiredFlight_id        **http://localhost:3000/editsumm/:flight_id/:class/:adultsNumber/:childrenNumber/:seats/:user_id/:reservation_id/:desiredFlight_id
      *  Request type :POST
      *  Response : message of successful update
@@ -315,8 +316,8 @@
 
 * #### The ExistingUser should be able to  delete reserved flights:
      *  Functionality : delete reserved flights
-     *  Route Backend : http://localhost:8000/
-     *  Route Frontend: http://localhost:3000/
+     *  Route Backend : http://localhost:8000/flights/delete
+     *  Route Frontend: http://localhost:3000/AllUserFlights/:user_id
      *  Request type :POST
      *  Response : message of successful deletion
 
@@ -325,7 +326,7 @@
 
 * #### TheGuestUser should be able to register/sign up:
      *  Functionality : register new user/sign up
-     *  Route  Backend: http://localhost:8000/
+     *  Route  Backend: http://localhost:8000/users/register
      *  Route Frontend: http://localhost:3000/Register
      *  Request type :POST
      *  Request body:{"username":"lfm","first Name":"Lidia","last Name":"karim","Email":"1234@gmail.com","address":"cairo","phone number":"123456789","password":"123","confirm password":"123","passport number":""135792468}
