@@ -135,6 +135,7 @@
 * #### The Admin should be able to delete any flight:
       *  Functionality : delte flight
       *  Route : /delete
+      *  Response: A message that the flight is deleted
       *  Request type :POST
       *  Request body: { "_id": "61aa72ee141edfedf9ad6322",
         "flightNumber": "123",
@@ -155,7 +156,7 @@
         "airport": "airport",
         "from": "Cairo",
         "to": "Alex",}
-      *  Response: A message that the flight is deleted
+     
         
    
 
