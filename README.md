@@ -184,7 +184,7 @@
            	
    ***
    
-  * #### The Guest/ExistingUser should be able to see details of any departure/return flight:
+      * #### The Guest/ExistingUser should be able to see details of any departure/return flight:
     *  Functionality : viewing details of fligth
     *  Route Backend:  http://localhost:8000/flights/flight
     *  Route Frontend: http://localhost:3000/showDetails/:_id/:user_id
@@ -192,8 +192,8 @@
     *  Response: Details of selected flight
       
    ***
-            
-  * #### The Guest/ExistingUser should be able to see details of to be reserved departure and return flights:
+  
+      * #### The Guest/ExistingUser should be able to see details of to be reserved departure and return flights:
     *  Functionality : summery of reserved flights
     *  Route : /allres
     *  Request type : GET
@@ -287,6 +287,7 @@
 
  ## Installations
  * npm install react
+ * npm install nodejs
  * npm install express
  * npm install mongoose
  * npm install dotenv
@@ -301,6 +302,7 @@
  * npm install react-icons
  * npm install react-stripe-checkout
  * npm install react-dropdown
+ * npm install body-parser
 
 
 
