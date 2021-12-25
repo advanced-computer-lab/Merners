@@ -166,9 +166,18 @@
    
    
  ### 2-Guest/ExistingUser Functionalities
-  * #### The Guest/ExistingUser should be able to search for a departure/return flight:
+  * #### The ExistingUser should be able to search for a departure/return flight:
      *  Functionality : searching for a fligth
-     *  Route : /usersearch
+     *  Route Backend: http://localhost:8000/flights/usersearch
+     *  Rote Frontend:http://localhost:3000/usersearchflights/userid
+     *  Request type : GET
+     *  Request body:{ "number of passengers": "2", "airport":"CAI" , "terminals":"2", "departure date":"25/12/2021", "arrival date":"1/1/2022","cabin":"first"}
+     *  Response: All flights available matching the search criteria
+
+* #### The Guest should be able to search for a departure/return flight:
+     *  Functionality : searching for a fligth
+     *  Route Backend :  http://localhost:8000/flights/usersearch
+     *  Route Frontend: http://localhost:3000/guestsearchflights
      *  Request type : GET
      *  Request body:{ "number of passengers": "2", "airport":"CAI" , "terminals":"2", "departure date":"25/12/2021", "arrival date":"1/1/2022","cabin":"first"}
      *  Response: All flights available matching the search criteria
@@ -176,8 +185,9 @@
    ***
    
   * #### The Guest/ExistingUser should be able to see details of any departure/return flight:
-     *  Functionality : viewing fligth
-     *  Route : /flight
+     *  Functionality : viewing details of fligth
+     *  Route Backend:  http://localhost:8000/flights/flight
+     *  Route Frontend: http://localhost:3000/showDetails/:_id/:user_id
      *  Request type : GET
      *  Response: Details of selected flight
       
@@ -209,7 +219,8 @@
      
   * #### The ExistingUser should be able to update his/her profile:
      *  Functionality : updating profile
-     *  Route : /updateUser
+     *  Route backend : http://localhost:8000/users/updateUser
+     *  
      *  Request type :POST
      *  Request body:{"username":"Laila","first Name":"Laila","Last Name":"Ayman","email":123@gmail.com}
      *  Response: message of update is done successfully
