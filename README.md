@@ -294,6 +294,8 @@
  * npm install @mui/material
  * npm install react-bootstrap
  * npm install nodemon
+ * npm install nodemailer
+ * npm install bycrypt
  * npm install axios
 
 
