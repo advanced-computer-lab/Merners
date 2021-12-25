@@ -7,24 +7,8 @@
 ## Framework used
 * MERN (mongodb-express-react-nodejs) Stack
 
-
-
-## Start File
-* app.js
-* To start the database connections run the command: node app.js (run it in the terminal)
-
-
-
-## Port to use for database establishment 
- 8000
- 
-## Starting the website command
-* npm start
- 
-## Port to use for initialize the website
- 3000
- 
- ## Routes
+## Features
+ ### Routes
  
  ### 1-Admin Functionalities
   * #### The Admin should be able to create a flight:
@@ -325,9 +309,6 @@
      *  Request body:{"username":"lfm","first Name":"Lidia","last Name":"karim","Email":"1234@gmail.com","address":"cairo","phone number":"123456789","password":"123","confirm password":"123","passport number":""135792468}
      *  Response : redirecting to signing in page
 
- ## API
- 
- ## Tests
 
  ## Installations
  * npm install react
@@ -350,7 +331,15 @@
 
 
 
-
+ ## API
+ 
+ ## Tests
+ 
+ # How to use?
+ Open a new terminal in visual studio code and write this command:
+ * node app.js (Start File to connect to the database)(Port:8000)
+Next open a new terminal and write this command:
+ * npm start
 
  ## Team Members:
 * Somia Hossam 
