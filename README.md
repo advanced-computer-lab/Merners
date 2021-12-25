@@ -218,10 +218,14 @@
 
  * #### The ExistingUser should be able to change his/her password:
      *  Functionality : changing password
-     *  Route : /changePassword
+     *  Route backend: http://localhost:8000/users/changePassword
+     *  Route frontend:
      *  Request type :POST
      *  Request body:{"oldpassword":"123","newpassword":"137","confirm newpassword":"137"}
      *  Response: message of password has changed successfully
+     *  Errors: * old password/new password/comfirm password is null
+                * new password and confirm password not equall
+                * old password not equal to the one in the database
 
 ***
 
@@ -266,7 +270,8 @@
      *  Request body:{"username":"lfm","first Name":"Lidia","last Name":"karim","Email":"1234@gmail.com","address":"cairo","phone number":"123456789","password":"123","confirm password":"123","passport number":""135792468}
      *  Response : redirecting to signing in page
 
-
+ ## API
+ 
  ## Tests
 
  ## Installations
