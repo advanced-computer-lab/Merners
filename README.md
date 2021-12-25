@@ -22,7 +22,7 @@
  ### 1-Admin Functionalities
   * #### The Admin should be able to create a flight:
      *  Functionality : creating a fligth
-     *  Route : /create
+     *  Route Backend : http://localhost:8000/flights/create
      *  Request type : POST
      *  Response: Message of creation success
      *  Request body: {
@@ -50,7 +50,8 @@
 
   * #### The Admin should be able to search for flight/s:
       *  Functionality : searching for fligth/s
-      *  Route : /search
+      *  Route Backend : http://localhost:8000/flights/search
+      *  Route Frontend: http://localhost:3000/search/:user_id
       *  Request type : GET
       *  Response : All Flights with all details Example: {
         "_id": "61aa72ee141edfedf9ad6322",
@@ -81,7 +82,8 @@
 
   * #### The Admin should be able to view all flights without search criteria:
       *  Functionality : viewing fligths
-      *  Route : /get
+      *  Route Backend: http://localhost:8000/flights/get
+      *  Route Frontend:http://localhost:3000/Home/:user_id
       *  Request type : GET
       *  Response : Flight object Example :  "_id": "61aa72ee141edfedf9ad6322",
         "flightNumber": "123",
@@ -111,7 +113,8 @@
 
  * #### The Admin should be able to update a flight:
       *  Functionality : update flight
-      *  Route : /update
+      *  Route Backend: http://localhost:8000/flights/update
+      *  Route Frontend:http://localhost:3000/Home/:user_id
       *  Request type :POST
       *  Request body:  {
         "flightNumber":"246",
@@ -139,7 +142,8 @@
 
   * #### The Admin should be able to delete any flight:
      *  Functionality : deleting a fligth
-     *  Route : /delete
+     *  Route Backend : http://localhost:8000/flights/delete
+     *  Route Frontend: http://localhost:3000/Home/:user_id
      *  Request type : POST
      *  Response: Message of creation success
      *  Request body: {
@@ -184,7 +188,7 @@
            	
    ***
    
-      * #### The Guest/ExistingUser should be able to see details of any departure/return flight:
+      * #### The ExistingUser should be able to see details of any departure/return flight:
     *  Functionality : viewing details of fligth
     *  Route Backend:  http://localhost:8000/flights/flight
     *  Route Frontend: http://localhost:3000/showDetails/:_id/:user_id
@@ -192,25 +196,53 @@
     *  Response: Details of selected flight
       
    ***
+   
+    * #### The GuestUser should be able to see details of any departure/return flight:
+    *  Functionality : viewing details of fligth
+    *  Route Backend:  http://localhost:8000/flights/flight
+    *  Route Frontend: http://localhost:3000/showDetailsGuest/:_id
+    *  Request type : GET
+    *  Response: Details of selected flight
+      
+   ***
+   
   
-      * #### The Guest/ExistingUser should be able to see details of to be reserved departure and return flights:
+      * #### The ExistingUser should be able to see details of to be reserved departure and return flights:
     *  Functionality : summery of reserved flights
-    *  Route : /allres
+    *  Route Backend: http://localhost:8000/flights/flight
+    *  Route Frontend: http://localhost:3000/FinalSumm/:_id/:class/:seats/:totalseats/:adnod/:chnod/:tnopd/:_idr/:classr/:seatsr/:totalseatsr/:adnor/:chnor/:tnopr/:user_id
     *  Request type : GET
     *  Response: Details of to be reserved flights
 
 ***
 
-  * #### The Guest/ExistingUser should be able to cancel departure and return flights before confirming reservation:
+  * #### The GuestUser should be able to see details of to be reserved departure and return flights:
+    *  Functionality : summery of reserved flights
+    *  Route Backend: http://localhost:8000/flights/flight
+    *  Route Frontend: http://localhost:3000/FinalSummGuest/:_id/:class/:seats/:totalseats/:adnod/:chnod/:tnopd/:_idr/:classr/:seatsr/:totalseatsr/:adnor/:chnor/:tnopr
+    *  Request type : GET
+    *  Response: Details of to be reserved flights
+
+***
+
+  * #### The ExistingUser should be able to cancel departure and return flights before confirming reservation:
      *  Functionality : summery of reserved flights
-     *  Route : /cancel
+     *  Route Frontend: http://localhost:3000/Home/:user_id
+     *  Request type : POST
+     *  Response: confirmation message
+***
+
+* #### The GuestUser should be able to cancel departure and return flights before confirming reservation:
+     *  Functionality : summery of reserved flights
+     *  Route Frontend: http://localhost:3000/Home/GuestHomePage
      *  Request type : POST
      *  Response: confirmation message
 ***
 
  * #### The ExistingUser should be able to login:
      *  Functionality : logging in
-     *  Route : /login
+     *  Route Backend: http://localhost:8000/users/login
+     *  Route Frontend: http://localhost:3000/
      *  Request type :POST
      *  Request body:{"username":"Laila","password":123}
      *  Response: message of logging in successfully
@@ -220,7 +252,7 @@
   * #### The ExistingUser should be able to update his/her profile:
      *  Functionality : updating profile
      *  Route backend : http://localhost:8000/users/updateUser
-     *  
+     *  Route Frontend:  http://localhost:3000/homePageUser/:user_id
      *  Request type :POST
      *  Request body:{"username":"Laila","first Name":"Laila","Last Name":"Ayman","email":123@gmail.com}
      *  Response: message of update is done successfully
@@ -230,7 +262,7 @@
  * #### The ExistingUser should be able to change his/her password:
      *  Functionality : changing password
      *  Route backend: http://localhost:8000/users/changePassword
-     *  Route frontend:
+     *  Route frontend:http://localhost:3000/changePassword/:user_id
      *  Request type :POST
      *  Request body:{"oldpassword":"123","newpassword":"137","confirm newpassword":"137"}
      *  Response: message of password has changed successfully
@@ -242,7 +274,8 @@
 
 * #### The ExistingUser should be able to reserve flights:
      *  Functionality : reserve flights
-     *  Route : /reserve
+     *  Route Backend : **http://localhost:8000/reservations/create **http://localhost:8000/flights/redSeats
+     *  Route Frontend:
      *  Request type :POST
      *  Response : message of successful reservation
 ***
@@ -250,7 +283,8 @@
 
 * #### The ExistingUser should be able to view his/her flights:
      *  Functionality : viewing flights
-     *  Route : /getUserReserved
+     *  Route Backend : **http://localhost:8000/reservations/getReservation **http://localhost:8000/flights/flightById
+     *  Route Frontend:  http://localhost:3000/AllUserFlights/:user_id
      *  Request type :POST
      *  Response: details of reserved flights
 
@@ -258,7 +292,8 @@
 
 * #### The ExistingUser should be able to  edit reserved flights:
      *  Functionality : edit reserved flights
-     *  Route : /update
+     *  Route Backend : http://localhost:8000/
+     *  Route Frontend: http://localhost:3000/
      *  Request type :POST
      *  Response : message of successful update
 
@@ -267,7 +302,8 @@
 
 * #### The ExistingUser should be able to  delete reserved flights:
      *  Functionality : delete reserved flights
-     *  Route : /deleteUserFlight
+     *  Route Backend : http://localhost:8000/
+     *  Route Frontend: http://localhost:3000/
      *  Request type :POST
      *  Response : message of successful deletion
 
@@ -276,7 +312,8 @@
 
 * #### TheGuestUser should be able to register/sign up:
      *  Functionality : register new user/sign up
-     *  Route : /register
+     *  Route  Backend: http://localhost:8000/
+     *  Route Frontend: http://localhost:3000/Register
      *  Request type :POST
      *  Request body:{"username":"lfm","first Name":"Lidia","last Name":"karim","Email":"1234@gmail.com","address":"cairo","phone number":"123456789","password":"123","confirm password":"123","passport number":""135792468}
      *  Response : redirecting to signing in page
