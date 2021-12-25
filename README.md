@@ -185,11 +185,11 @@
    ***
    
   * #### The Guest/ExistingUser should be able to see details of any departure/return flight:
-    *  Functionality : viewing details of fligth
-    *  Route Backend:  http://localhost:8000/flights/flight
-    *  Route Frontend: http://localhost:3000/showDetails/:_id/:user_id
-    *  Request type : GET
-    *  Response: Details of selected flight
+    **  Functionality : viewing details of fligth
+    **  Route Backend:  http://localhost:8000/flights/flight
+    **  Route Frontend: http://localhost:3000/showDetails/:_id/:user_id
+    **  Request type : GET
+    **  Response: Details of selected flight
       
    ***
             
